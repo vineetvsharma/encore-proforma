@@ -1,0 +1,3182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Development Financial Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #8b7355;
+            --accent: #c9a169;
+            --background: linear-gradient(135deg, #f8f9fa 0%, #eceff1 100%);
+            --surface: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #d5d5d5;
+            --grid-border: #c0c0c0;
+            --header-bg: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            --calculated-bg: #e8e8e8;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --section-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --input-bg: #deeef8;
+            --input-border: #b8d4e8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #eceff1 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            font-weight: 400;
+            opacity: 0.92;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .phase-section {
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            margin-bottom: 2rem;
+            box-shadow: var(--section-shadow);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3d5166 100%);
+            border-left: none;
+            border-bottom: 2px solid var(--accent);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: 0 2px 6px rgba(44, 62, 80, 0.15);
+        }
+
+        .phase-number {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            background: rgba(255,255,255,0.12);
+            padding: 0.3rem 0.7rem;
+            border: 2px solid rgba(201, 161, 105, 0.5);
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .phase-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+
+        /* Excel-style table */
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .excel-table thead {
+            background: var(--header-bg);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .excel-table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            border: 1px solid var(--grid-border);
+        }
+
+        .excel-table td {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--grid-border);
+            vertical-align: middle;
+        }
+
+        .excel-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .excel-table .row-header {
+            background: var(--header-bg);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .excel-table .section-header {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .excel-table .subsection-header {
+            background: #e0e0e0;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .excel-table .total-row {
+            background: var(--calculated-bg);
+            font-weight: 600;
+            border-top: 2px solid var(--grid-border);
+        }
+
+        .excel-table input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--input-border);
+            font-size: 0.875rem;
+            font-family: 'Work Sans', sans-serif;
+            background: var(--input-bg);
+            text-align: right;
+            border-radius: 4px;
+        }
+
+        .excel-table input[type="number"]:focus {
+            outline: none;
+            border: 2px solid var(--accent);
+            background: #c8e2f4;
+        }
+
+        .excel-table input[type="number"]::-webkit-outer-spin-button,
+        .excel-table input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .excel-table input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Remove spinners from all number inputs */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Standalone input fields */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .excel-table input[readonly] {
+            background: var(--calculated-bg);
+            cursor: not-allowed;
+            font-weight: 600;
+        }
+
+        .excel-table .empty-cell {
+            background: var(--calculated-bg);
+        }
+
+        .excel-table .display-cell {
+            background: var(--calculated-bg);
+        }
+
+        .currency::before {
+            content: '';
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Dashboard styles */
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .project-card:hover {
+            box-shadow: var(--section-shadow);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .project-card-info {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .project-card-address {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .project-card-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .project-card-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .project-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-open {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(44, 62, 80, 0.2);
+        }
+
+        .btn-open:hover {
+            background: #3d5166;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(44, 62, 80, 0.3);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #c0392b;
+            border: 2px solid #c0392b;
+            padding: 0.5rem 1rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(192, 57, 43, 0.3);
+        }
+
+        .profit-positive { color: #27ae60; font-weight: 600; }
+        .profit-negative { color: #c0392b; font-weight: 600; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            border-radius: 4px;
+        }
+        .status-under-consideration { background: #fef3cd; color: #856404; border: 1px solid #ffc107; }
+        .status-acquired            { background: #d1f0e0; color: #1a6b3c; border: 1px solid #27ae60; }
+        .status-archived            { background: #e8e8e8; color: #666;    border: 1px solid #bbb; }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            border-bottom: 2px solid var(--border);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .filter-bar label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .filter-bar select {
+            padding: 0.5rem 0.85rem;
+            border: 2px solid var(--border);
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.875rem;
+            background: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .filter-bar select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .save-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3d5166 100%);
+            color: white;
+            padding: 0.85rem 1.75rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+            border-radius: 6px;
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .save-toast.show { opacity: 1; }
+
+        /* Help section */
+        .help-section {
+            display: none;
+            border-top: 1px solid var(--border);
+        }
+
+        .help-section.open { display: block; }
+
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.75rem;
+        }
+
+        .help-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            padding: 1.25rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .help-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--section-shadow);
+        }
+
+        .help-card-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.85rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .help-step {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.65rem;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .help-step:last-child { margin-bottom: 0; }
+
+        .help-step-num {
+            flex-shrink: 0;
+            width: 1.4rem;
+            height: 1.4rem;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.1rem;
+        }
+
+        .help-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            line-height: 1.5;
+        }
+
+        .btn-help {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 0.65rem 1.25rem;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+        .btn-help:hover { background: rgba(255,255,255,0.1); }
+
+        @media (max-width: 768px) {
+            .excel-table {
+                font-size: 0.75rem;
+            }
+
+            .excel-table th,
+            .excel-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* ── PRINT / PDF STYLES ─────────────────────────────────────────────── */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+            body { background: white; font-size: 10pt; }
+
+            /* Hide everything except the model page content */
+            #dashboardPage,
+            .no-print { display: none !important; }
+
+            #modelPage { display: block !important; }
+
+            .header { display: none !important; }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            /* PDF Cover header */
+            #pdfHeader {
+                display: block !important;
+                padding: 1.5rem 2rem 1rem;
+                border-bottom: 3px solid #2c3e50;
+                margin-bottom: 1rem;
+            }
+
+            .phase-section {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+                border: 1px solid #c0c0c0;
+            }
+
+            /* Phase 4 cash flow can break across pages */
+            .phase-section.allow-break { page-break-inside: auto; }
+
+            .phase-header {
+                padding: 0.4rem 0.75rem 0.4rem 0.6rem;
+                background: #2c3e50 !important;
+                border-left: 4px solid #c9a169 !important;
+                box-shadow: none !important;
+            }
+
+            .phase-title { font-size: 11pt; color: white !important; }
+            .phase-number {
+                font-size: 6pt !important;
+                color: #c9a169 !important;
+                border: 1px solid rgba(201,161,105,0.5) !important;
+                padding: 1pt 3pt !important;
+                background: rgba(255,255,255,0.06) !important;
+            }
+
+            .excel-table { font-size: 8pt; width: 100%; }
+
+            .excel-table th {
+                background: #f2f2f2 !important;
+                padding: 4pt 6pt;
+                font-size: 7.5pt;
+            }
+
+            .excel-table td { padding: 3pt 6pt; }
+
+            .display-cell, .empty-cell {
+                background: #e8e8e8 !important;
+            }
+
+            .section-header {
+                background: #2c3e50 !important;
+                color: white !important;
+            }
+
+            .total-row td { background: #f2f2f2 !important; font-weight: 600; }
+
+            input[type="number"],
+            input[type="text"],
+            select {
+                border: none !important;
+                background: transparent !important;
+                font-family: 'Work Sans', sans-serif;
+                font-size: 8pt;
+                padding: 0 !important;
+                width: auto !important;
+                -webkit-appearance: none;
+                appearance: none;
+            }
+
+            /* Standalone input grids */
+            .standalone-inputs {
+                padding: 0.5rem 1rem !important;
+            }
+
+            /* Page break hints */
+            #phase4Section { page-break-before: always; }
+            #phase5Section { page-break-before: always; }
+        }
+
+
+        /* Cost breakdown sub-rows under Total Project Cost */
+        .breakdown-row td {
+            font-size: 0.82em;
+            font-style: italic;
+            color: #6b7a8d;
+            background: #f7f8fa !important;
+            border-top: none;
+        }
+
+        .breakdown-row:first-of-type td {
+            border-top: 1px dashed #c8d0da;
+        }
+
+        .breakdown-row:last-of-type td {
+            border-bottom: 1px dashed #c8d0da;
+        }
+
+        .breakdown-row .row-header {
+            font-style: italic;
+            color: #6b7a8d;
+            padding-left: 2.5rem;
+        }
+
+        .breakdown-row .display-cell {
+            background: #f7f8fa !important;
+            color: #6b7a8d;
+        }
+        /* Tooltip for Cum Debt Balance header and cells */
+        .tooltip-header,
+        .tooltip-cell {
+            position: relative;
+            cursor: help;
+        }
+        
+        .tooltip-header::after,
+        .tooltip-cell::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            margin-bottom: 0.5rem;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tooltip-header:hover::after,
+        .tooltip-cell:hover::after {
+            opacity: 1;
+        }
+
+        /* PDF header — hidden on screen, shown when printing */
+        #pdfHeader { display: none; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Firebase SDK from jsdelivr CDN (more reliable than gstatic) -->
+    <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.0/firebase-app-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage">
+        <div class="header">
+            <h1>Encore Development Partners</h1>
+        </div>
+        <div class="container">
+            <div class="phase-section">
+                <div class="phase-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 class="phase-title">My Projects</h2>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <button id="helpBtn" class="btn-help">? Help</button>
+                        <button id="newProjectBtn" style="background: var(--accent); color: white; border: none; padding: 0.65rem 1.5rem; font-family: 'Work Sans', sans-serif; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;">+ New Project</button>
+                    </div>
+                </div>
+
+                <!-- Help Section (collapsed by default) -->
+                <div id="helpSection" class="help-section">
+                    <div class="help-grid">
+                        <div class="help-card">
+                            <div class="help-card-title">📋 Recommended Workflow</div>
+                            <div class="help-step"><span class="help-step-num">1</span>Click <strong>+ New Project</strong> to open a blank proforma.</div>
+                            <div class="help-step"><span class="help-step-num">2</span>Enter the <strong>Project Address</strong> and <strong>Status</strong> at the top.</div>
+                            <div class="help-step"><span class="help-step-num">3</span>Fill in Phases 1–5 with your project data. All calculations update in real time.</div>
+                            <div class="help-step"><span class="help-step-num">4</span>Click <strong>💾 Save Project</strong> to save your work to the cloud database.</div>
+                            <div class="help-step"><span class="help-step-num">5</span>Your projects are automatically synced and accessible from any device.</div>
+                        </div>
+
+                        <div class="help-card">
+                            <div class="help-card-title">🏷️ Project Status</div>
+                            <div class="help-step"><span class="help-step-num" style="background: #856404;">UC</span><div><strong>Under Consideration</strong> — Default for new projects. Shown on dashboard by default.</div></div>
+                            <div class="help-step"><span class="help-step-num" style="background: #1a6b3c;">A</span><div><strong>Acquired</strong> — Project has been purchased and is active.</div></div>
+                            <div class="help-step"><span class="help-step-num" style="background: #888;">AR</span><div><strong>Archived</strong> — Project is no longer active. Hidden from default view.</div></div>
+                            <div class="help-note">Use the <strong>Filter by Status</strong> dropdown to switch between views. Select <em>All Projects</em> to see everything at once.</div>
+                        </div>
+
+                        <div class="help-card">
+                            <div class="help-card-title">☁️ Cloud Storage & Sync</div>
+                            <div class="help-step"><span class="help-step-num">1</span>All project data is stored in a <strong>secure cloud database</strong> (Firebase).</div>
+                            <div class="help-step"><span class="help-step-num">2</span>Projects are <strong>automatically synced</strong> across all users and devices in real-time.</div>
+                            <div class="help-step"><span class="help-step-num">3</span>Access your projects from <strong>any browser, device, or location</strong> — no manual backup needed.</div>
+                            <div class="help-step"><span class="help-step-num">4</span>Changes are saved instantly when you click <strong>💾 Save Project</strong>.</div>
+                            <div class="help-note">✅ Your data is securely backed up in Google Cloud infrastructure.</div>
+                        </div>
+
+                        <div class="help-card">
+                            <div class="help-card-title">📊 Exit Phase — Scenarios</div>
+                            <div class="help-step"><span class="help-step-num">B</span>The <strong>Base Case</strong> column uses the Price Per Sq.Ft. you enter directly.</div>
+                            <div class="help-step"><span class="help-step-num">+</span><strong>+5.0% / +2.5%</strong> columns show results if the market performs better than expected.</div>
+                            <div class="help-step"><span class="help-step-num">−</span><strong>−2.5% through −10%</strong> columns show downside sensitivity.</div>
+                            <div class="help-note">Total Project Cost and its breakdown (Acquisition, Entitlement, Construction, Financing) are the same across all scenarios — only the revenue and profit change.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <label>Filter by Status:</label>
+                    <select id="statusFilter">
+                        <option value="Under Consideration">Under Consideration</option>
+                        <option value="Acquired">Acquired</option>
+                        <option value="Archived">Archived</option>
+                        <option value="All">All Projects</option>
+                    </select>
+                </div>
+                <div id="projectsList" style="padding: 1rem;">
+                    <div id="noProjectsMsg" style="text-align: center; padding: 3rem; color: var(--text-secondary); font-style: italic;">No projects saved yet. Click "+ New Project" to get started.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODEL PAGE -->
+    <div id="modelPage" style="display: none;">
+    <div class="header no-print">
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto;">
+            <button id="backToDashboardBtn" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.4); padding: 0.5rem 1rem; font-family: 'Work Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase;">← Dashboard</button>
+            <h1>Deal Proforma</h1>
+            <div style="display: flex; gap: 0.5rem;">
+                <button id="exportPdfBtn" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.4); padding: 0.5rem 1.1rem; font-family: 'Work Sans', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase;">⬇ PDF</button>
+                <button id="saveProjectBtn" style="background: var(--accent); color: white; border: none; padding: 0.5rem 1.25rem; font-family: 'Work Sans', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase;">💾 Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF-only header (hidden on screen) -->
+    <div id="pdfHeader">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <div style="font-family: 'Crimson Pro', serif; font-size: 22pt; font-weight: 600; color: #2c3e50; line-height: 1.1;">Deal Proforma</div>
+                <div id="pdfAddress" style="font-size: 11pt; color: #444; margin-top: 4pt;"></div>
+            </div>
+            <div style="text-align: right;">
+                <div id="pdfStatus" style="font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b7355;"></div>
+                <div id="pdfDate" style="font-size: 8pt; color: #888; margin-top: 2pt;"></div>
+                <div style="font-size: 7.5pt; color: #aaa; margin-top: 2pt;">Encore Development Partners</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Project Address -->
+        <div class="phase-section">
+            <div class="phase-header">
+                <h2 class="phase-title">Project Details</h2>
+            </div>
+            <div style="padding: 1.5rem; background: var(--header-bg); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Project Address</label>
+                    <input type="text" id="projectAddress" placeholder="Enter project address..." style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Project Status</label>
+                    <select id="projectStatus" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; color: var(--text-primary); border-radius: 4px;">
+                        <option value="Under Consideration">Under Consideration</option>
+                        <option value="Acquired">Acquired</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Phase 1: Acquisition -->
+        <div class="phase-section">
+            <div class="phase-header" style="cursor: pointer;" onclick="togglePhase('phase1')">
+                <span id="phase1Toggle" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); background: rgba(201, 161, 105, 0.2); padding: 0.2rem 0.6rem; border-radius: 4px; user-select: none; transition: all 0.2s; margin-right: 1rem;">−</span>
+                <span class="phase-number">Phase 1 of 4</span>
+                <h2 class="phase-title">Acquisition</h2>
+            </div>
+
+            <div id="phase1Content">
+            <div style="padding: 1.5rem; background: var(--header-bg); border-bottom: 1px solid var(--border);">
+                <div style="display: flex; align-items: center; gap: 1rem; max-width: 500px;">
+                    <label style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); white-space: nowrap;">Acquisition Price</label>
+                    <input type="text" id="acquisitionPrice" placeholder="0" style="width: 200px; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+            </div>
+
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Item</th>
+                        <th style="width: 25%;">Percentage</th>
+                        <th style="width: 25%;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="total-row">
+                        <td class="row-header">Total Acquisition Price</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="totalPriceDisplay">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Equity Required</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <input type="number" id="equityPercent" placeholder="0" min="0" max="100" step="0.1" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                                <span>%</span>
+                            </div>
+                        </td>
+                        <td class="align-right currency display-cell" id="equityRequiredDisplay">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Debt Required</td>
+                        <td class="align-right display-cell" id="debtPercentDisplay">0.00%</td>
+                        <td class="align-right currency display-cell" id="debtRequiredDisplay">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- Phase 2: Entitlement -->
+        <div class="phase-section">
+            <div class="phase-header" style="cursor: pointer;" onclick="togglePhase('phase2')">
+                <span id="phase2Toggle" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); background: rgba(201, 161, 105, 0.2); padding: 0.2rem 0.6rem; border-radius: 4px; user-select: none; transition: all 0.2s; margin-right: 1rem;">−</span>
+                <span class="phase-number">Phase 2 of 4</span>
+                <h2 class="phase-title">Entitlement</h2>
+            </div>
+
+            <div id="phase2Content">
+            <div style="padding: 1.5rem; background: var(--header-bg); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Entitlement Duration (Months)</label>
+                    <input type="number" id="entitlementMonths" placeholder="0" min="0" step="1" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Saleable Square Footage</label>
+                    <input type="text" id="sellableSqFt" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Debt Interest Rate (Annual %)</label>
+                    <input type="number" id="entitlementInterestRate" placeholder="0.00" min="0" max="100" step="0.01" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+            </div>
+
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Item</th>
+                        <th style="width: 25%;">$/SQ.FT</th>
+                        <th style="width: 25%;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="section-header">Soft Cost - Consultants</td>
+                    </tr>
+
+                    <tr>
+                        <td class="row-header">Architect Fee</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <span>$</span>
+                                <input type="number" id="architectPriceSF" placeholder="0.00" min="0" step="0.01" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                            </div>
+                        </td>
+                        <td class="align-right"><input type="text" id="architect" placeholder="0" readonly style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; border-radius: 4px; cursor: not-allowed;"></td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Interior Designer Fee</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <span>$</span>
+                                <input type="number" id="interiorDesignerPriceSF" placeholder="0.00" min="0" step="0.01" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                            </div>
+                        </td>
+                        <td class="align-right"><input type="text" id="interiorDesigner" placeholder="0" readonly style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; border-radius: 4px; cursor: not-allowed;"></td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Geotech Engineer</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="geotechEngineer" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Civil Engineer</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="civilEngineer" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Structural Engineer</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="structuralEngineer" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Landscape Architect</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="landscapeArchitect" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Permit Expediter</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="permitExpediter" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Total Consultant Fees</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="totalConsultantDisplay">$0</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" class="section-header">Soft Cost - Permits</td>
+                    </tr>
+
+                    <tr>
+                        <td class="row-header">Grading Permit</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="gradingPermit" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Building Permit</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="buildingPermit" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Pool Permit</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="poolPermit" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Impact Fees</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="impactFees" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Other/Misc Cost</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="haulRoutePermit" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Total Permit Fees</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="totalPermitDisplay">$0</td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td class="row-header"><strong>TOTAL SOFT COSTS</strong></td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="totalSoftCostsDisplay">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Entitlement Financing -->
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Entitlement Financing</th>
+                        <th style="width: 25%;">Percentage</th>
+                        <th style="width: 25%;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="total-row">
+                        <td class="row-header">Total Soft Costs</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="entFinTotalDisplay">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Equity Required</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <input type="number" id="entitlementEquityPercent" placeholder="0" min="0" max="100" step="0.1" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                                <span>%</span>
+                            </div>
+                        </td>
+                        <td class="align-right currency display-cell" id="entFinEquityDisplay">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Debt Required</td>
+                        <td class="align-right display-cell" id="entFinDebtPctDisplay">0.00%</td>
+                        <td class="align-right currency display-cell" id="entFinDebtDisplay">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Interest Reserve Option -->
+            <div style="padding: 1rem 1.5rem; background: #f9f9f7; border-top: 1px solid var(--border);">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="interestReserveIncluded" checked style="width: 18px; height: 18px; cursor: pointer;">
+                    <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary);">Interest Reserve Included (Capitalize debt service to debt balance)</span>
+                </label>
+            </div>
+            </div>
+
+        </div>
+
+        <!-- Phase 3: Construction -->
+        <div class="phase-section">
+            <div class="phase-header" style="cursor: pointer;" onclick="togglePhase('phase3')">
+                <span id="phase3Toggle" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); background: rgba(201, 161, 105, 0.2); padding: 0.2rem 0.6rem; border-radius: 4px; user-select: none; transition: all 0.2s; margin-right: 1rem;">−</span>
+                <span class="phase-number">Phase 3 of 4</span>
+                <h2 class="phase-title">Construction</h2>
+            </div>
+
+            <div id="phase3Content">
+            <div style="padding: 1.5rem; background: var(--header-bg); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Construction Duration (Months)</label>
+                    <input type="number" id="constructionMonths" placeholder="0" min="0" step="1" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Selling Duration (Months)</label>
+                    <input type="number" id="sellingMonths" placeholder="0" min="0" step="1" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Debt Interest Rate (Annual %)</label>
+                    <input type="number" id="constructionInterestRate" placeholder="0.00" min="0" max="100" step="0.01" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                </div>
+            </div>
+
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Item</th>
+                        <th style="width: 25%;">Input Parameter</th>
+                        <th style="width: 25%;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-header">Hard Construction Cost</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <span>$</span>
+                                <input type="number" id="constructionCostPerSF" placeholder="0.00" min="0" step="0.01" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                            </div>
+                        </td>
+                        <td class="align-right">
+                            <input type="text" id="hardConstructionCost" placeholder="0" readonly style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; border-radius: 4px; cursor: not-allowed;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">GC Fee, Supervision & Insurance</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <input type="number" id="gcFeePercent" placeholder="0" min="0" max="100" step="0.1" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                                <span>%</span>
+                            </div>
+                        </td>
+                        <td class="align-right">
+                            <input type="text" id="gcFee" placeholder="0" readonly style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; border-radius: 4px; cursor: not-allowed;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Pool, Landscape & Hardscape</td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right">
+                            <input type="text" id="poolLandscape" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header"><strong>TOTAL CONSTRUCTION COSTS</strong></td>
+                        <td class="empty-cell"></td>
+                        <td class="align-right currency display-cell" id="totalConstructionDisplay">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="excel-table" style="margin-top: 2rem;">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Financing</th>
+                        <th style="width: 25%;">Percentage</th>
+                        <th style="width: 25%;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="total-row">
+                        <td class="row-header">Equity Required</td>
+                        <td class="align-right">
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;">
+                                <input type="number" id="constructionEquityPercent" placeholder="0" min="0" max="100" step="0.1" style="width: 80px; text-align: right; background: #deeef8; border: 1px solid #b8d4e8;">
+                                <span>%</span>
+                            </div>
+                        </td>
+                        <td class="align-right currency display-cell" id="constructionEquityRequiredDisplay">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Debt Required</td>
+                        <td class="align-right display-cell" id="constructionDebtPercentDisplay">0.00%</td>
+                        <td class="align-right currency display-cell" id="constructionDebtRequiredDisplay">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Interest Reserve Option -->
+            <div style="padding: 1rem 1.5rem; background: #f9f9f7; border-top: 1px solid var(--border);">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="constructionInterestReserveIncluded" checked style="width: 18px; height: 18px; cursor: pointer;">
+                    <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary);">Interest Reserve Included (Capitalize debt service to debt balance)</span>
+                </label>
+            </div>
+            </div>
+        </div>
+
+        <!-- Phase 4: Cash Flow -->
+        <div class="phase-section allow-break" id="phase4Section">
+            <div class="phase-header" style="justify-content: space-between; cursor: pointer;" onclick="togglePhase('phase4')">
+                <div style="display: flex; align-items: center; gap: 1.25rem;">
+                    <span id="phase4Toggle" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); background: rgba(201, 161, 105, 0.2); padding: 0.2rem 0.6rem; border-radius: 4px; user-select: none; transition: all 0.2s;">−</span>
+                    <span class="phase-number">Phase 4 of 5</span>
+                    <h2 class="phase-title">Cash Flow</h2>
+                </div>
+                <button onclick="exportCashFlowToExcel(); event.stopPropagation();" class="no-print" style="background: var(--accent); color: #2c3e50; padding: 0.5rem 1rem; border: none; font-weight: 600; cursor: pointer; font-size: 0.875rem; letter-spacing: 0.05em;">
+                    ⬇ EXPORT TO EXCEL
+                </button>
+            </div>
+
+            <div id="phase4Content">
+                <!-- Cash flow table will be generated here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Phase 5: Exit Strategy -->
+        <div class="phase-section allow-break" id="phase5Section">
+            <div class="phase-header" style="cursor: pointer;" onclick="togglePhase('phase5')">
+                <span id="phase5Toggle" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); background: rgba(201, 161, 105, 0.2); padding: 0.2rem 0.6rem; border-radius: 4px; user-select: none; transition: all 0.2s; margin-right: 1rem;">−</span>
+                <span class="phase-number">Phase 5 of 5</span>
+                <h2 class="phase-title">Exit</h2>
+            </div>
+
+            <div id="phase5Content">
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Market Condition</th>
+                        <th style="width: 10%;">+5.0%</th>
+                        <th style="width: 10%;">+2.5%</th>
+                        <th style="width: 10%;">Base Case</th>
+                        <th style="width: 10%;">-2.5%</th>
+                        <th style="width: 10%;">-5.0%</th>
+                        <th style="width: 10%;">-7.5%</th>
+                        <th style="width: 10%;">-10.0%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-header">Saleable Square Footage</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_p5">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_p2_5">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFtDisplay">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_n2_5">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_n5">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_n7_5">0 SQ.FT.</td>
+                        <td class="align-right display-cell" id="exitSaleableSqFt_n10">0 SQ.FT.</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Price Per Sq.Ft.</td>
+                        <td class="align-right display-cell" id="pricePerSqFt_p5">$0</td>
+                        <td class="align-right display-cell" id="pricePerSqFt_p2_5">$0</td>
+                        <td class="align-right">
+                            <input type="text" id="exitPricePerSqFt" placeholder="0" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                        </td>
+                        <td class="align-right display-cell" id="pricePerSqFt_n2_5">$0</td>
+                        <td class="align-right display-cell" id="pricePerSqFt_n5">$0</td>
+                        <td class="align-right display-cell" id="pricePerSqFt_n7_5">$0</td>
+                        <td class="align-right display-cell" id="pricePerSqFt_n10">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Total Sales Revenue</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_p5">$0</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_p2_5">$0</td>
+                        <td class="align-right currency display-cell" id="totalSalesRevenueDisplay">$0</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_n2_5">$0</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_n5">$0</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_n7_5">$0</td>
+                        <td class="align-right currency display-cell" id="salesRevenue_n10">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header">Total Project Cost</td>
+                        <td class="align-right currency display-cell" id="projectCost_p5">$0</td>
+                        <td class="align-right currency display-cell" id="projectCost_p2_5">$0</td>
+                        <td class="align-right currency display-cell" id="totalProjectCostDisplay">$0</td>
+                        <td class="align-right currency display-cell" id="projectCost_n2_5">$0</td>
+                        <td class="align-right currency display-cell" id="projectCost_n5">$0</td>
+                        <td class="align-right currency display-cell" id="projectCost_n7_5">$0</td>
+                        <td class="align-right currency display-cell" id="projectCost_n10">$0</td>
+                    </tr>
+                    <tr class="breakdown-row">
+                        <td class="row-header" style="padding-left: 2.5rem;">↳ Acquisition Cost</td>
+                        <td class="align-right display-cell" id="acqCost_p5">$0</td>
+                        <td class="align-right display-cell" id="acqCost_p2_5">$0</td>
+                        <td class="align-right display-cell" id="acqCostDisplay">$0</td>
+                        <td class="align-right display-cell" id="acqCost_n2_5">$0</td>
+                        <td class="align-right display-cell" id="acqCost_n5">$0</td>
+                        <td class="align-right display-cell" id="acqCost_n7_5">$0</td>
+                        <td class="align-right display-cell" id="acqCost_n10">$0</td>
+                    </tr>
+                    <tr class="breakdown-row">
+                        <td class="row-header" style="padding-left: 2.5rem;">↳ Entitlement Cost</td>
+                        <td class="align-right display-cell" id="entCost_p5">$0</td>
+                        <td class="align-right display-cell" id="entCost_p2_5">$0</td>
+                        <td class="align-right display-cell" id="entCostDisplay">$0</td>
+                        <td class="align-right display-cell" id="entCost_n2_5">$0</td>
+                        <td class="align-right display-cell" id="entCost_n5">$0</td>
+                        <td class="align-right display-cell" id="entCost_n7_5">$0</td>
+                        <td class="align-right display-cell" id="entCost_n10">$0</td>
+                    </tr>
+                    <tr class="breakdown-row">
+                        <td class="row-header" style="padding-left: 2.5rem;">↳ Construction Cost</td>
+                        <td class="align-right display-cell" id="conCost_p5">$0</td>
+                        <td class="align-right display-cell" id="conCost_p2_5">$0</td>
+                        <td class="align-right display-cell" id="conCostDisplay">$0</td>
+                        <td class="align-right display-cell" id="conCost_n2_5">$0</td>
+                        <td class="align-right display-cell" id="conCost_n5">$0</td>
+                        <td class="align-right display-cell" id="conCost_n7_5">$0</td>
+                        <td class="align-right display-cell" id="conCost_n10">$0</td>
+                    </tr>
+                    <tr class="breakdown-row">
+                        <td class="row-header" style="padding-left: 2.5rem;">↳ Financing Cost</td>
+                        <td class="align-right display-cell" id="finCost_p5">$0</td>
+                        <td class="align-right display-cell" id="finCost_p2_5">$0</td>
+                        <td class="align-right display-cell" id="finCostDisplay">$0</td>
+                        <td class="align-right display-cell" id="finCost_n2_5">$0</td>
+                        <td class="align-right display-cell" id="finCost_n5">$0</td>
+                        <td class="align-right display-cell" id="finCost_n7_5">$0</td>
+                        <td class="align-right display-cell" id="finCost_n10">$0</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Selling Expenses (4.5%)</td>
+                        <td class="align-right display-cell" id="sellingExpenses_p5">$0</td>
+                        <td class="align-right display-cell" id="sellingExpenses_p2_5">$0</td>
+                        <td class="align-right display-cell" id="sellingExpensesDisplay">$0</td>
+                        <td class="align-right display-cell" id="sellingExpenses_n2_5">$0</td>
+                        <td class="align-right display-cell" id="sellingExpenses_n5">$0</td>
+                        <td class="align-right display-cell" id="sellingExpenses_n7_5">$0</td>
+                        <td class="align-right display-cell" id="sellingExpenses_n10">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header"><strong>NET PROFIT</strong></td>
+                        <td class="align-right currency display-cell" id="netProfit_p5">$0</td>
+                        <td class="align-right currency display-cell" id="netProfit_p2_5">$0</td>
+                        <td class="align-right currency display-cell" id="netProfitDisplay">$0</td>
+                        <td class="align-right currency display-cell" id="netProfit_n2_5">$0</td>
+                        <td class="align-right currency display-cell" id="netProfit_n5">$0</td>
+                        <td class="align-right currency display-cell" id="netProfit_n7_5">$0</td>
+                        <td class="align-right currency display-cell" id="netProfit_n10">$0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="row-header"><strong>NET PROFIT ON TOTAL COSTS</strong></td>
+                        <td class="align-right display-cell" id="profitPct_p5">0.00%</td>
+                        <td class="align-right display-cell" id="profitPct_p2_5">0.00%</td>
+                        <td class="align-right display-cell" id="profitPctDisplay">0.00%</td>
+                        <td class="align-right display-cell" id="profitPct_n2_5">0.00%</td>
+                        <td class="align-right display-cell" id="profitPct_n5">0.00%</td>
+                        <td class="align-right display-cell" id="profitPct_n7_5">0.00%</td>
+                        <td class="align-right display-cell" id="profitPct_n10">0.00%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <!-- Equity Split -->
+        <div style="padding: 1.5rem; background: var(--header-bg); border-top: 1px solid var(--border); margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Investor Equity</label>
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                    <input type="number" id="investorEquity" value="90" placeholder="0.00" min="0" max="100" step="0.01"
+                        style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                    <span style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem; min-width: 20px;">%</span>
+                </div>
+            </div>
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Developer Equity</label>
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                    <input type="number" id="developerEquity" placeholder="0.00" readonly
+                        style="width: 100%; padding: 0.65rem; border: 1px solid var(--border); font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; cursor: not-allowed; border-radius: 4px;">
+                    <span style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem; min-width: 20px;">%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profit Summary Section -->
+        <div class="phase-section" style="margin-top: 2rem;">
+            <div class="phase-header">
+                <span class="phase-number">Summary</span>
+                <h2 class="phase-title">Profit Summary</h2>
+            </div>
+
+            <!-- Summary Data Points -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1.5rem; background: var(--header-bg); border-bottom: 1px solid var(--border); margin-bottom: 0;">
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Total Equity</label>
+                    <div id="totalEquityDisplay" style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); padding: 0.65rem; background: var(--calculated-bg); border: 1px solid #b8d4e8; border-radius: 4px; text-align: right;">$0</div>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Total Profit for Distribution</label>
+                    <div id="totalProfitDistributionDisplay" style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); padding: 0.65rem; background: var(--calculated-bg); border: 1px solid #b8d4e8; border-radius: 4px; text-align: right;">$0</div>
+                </div>
+            </div>
+
+            <table class="excel-table" id="profitSummaryTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Hurdle</th>
+                        <th style="width: 30%;">Hurdle Description</th>
+                        <th style="width: 15%;">Investor</th>
+                        <th style="width: 15%;">Developer</th>
+                    </tr>
+                </thead>
+                <tbody id="profitSummaryBody">
+                    <tr>
+                        <td class="row-header">Hurdle 1</td>
+                        <td>Return Equity</td>
+                        <td class="align-right display-cell" id="hurdle1Investor">$0</td>
+                        <td class="align-right display-cell" id="hurdle1Developer">$0</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Hurdle 2</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span>Preferred Return</span>
+                                <input type="number" id="preferredReturnRate" value="10" placeholder="0" min="0" step="0.1"
+                                    style="width: 70px; padding: 0.4rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right;">
+                                <span style="font-weight: 600;">%</span>
+                            </div>
+                        </td>
+                        <td class="align-right display-cell" id="hurdle2Investor">$0</td>
+                        <td class="align-right display-cell" id="hurdle2Developer">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Add Hurdle Section -->
+            <div style="padding: 1.5rem; background: var(--surface); border-top: 2px solid var(--border);">
+                <div style="background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%); border: 2px solid var(--accent); border-radius: 6px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                    <div style="border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">
+                        <h3 style="font-family: 'Crimson Pro', serif; font-size: 1.2rem; font-weight: 600; color: var(--primary); margin: 0; letter-spacing: 0.01em;">Add Hurdle</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.25rem 0 0 0; font-style: italic;">Define custom profit distribution waterfall hurdles</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Investor %</label>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <input type="number" id="newHurdleInvestorPct" placeholder="0" min="0" max="100" step="0.1" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                                <span style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Developer %</label>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <input type="number" id="newHurdleDeveloperPct" placeholder="0" min="0" max="100" step="0.1" readonly style="width: 100%; padding: 0.65rem; border: 1px solid var(--border); font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: var(--calculated-bg); text-align: right; border-radius: 4px; cursor: not-allowed;">
+                                <span style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">Target Return %</label>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <input type="number" id="newHurdleTargetReturn" placeholder="0" min="0" step="0.1" style="width: 100%; padding: 0.65rem; border: 1px solid #b8d4e8; font-size: 0.875rem; font-family: 'Work Sans', sans-serif; background: #deeef8; text-align: right; border-radius: 4px;">
+                                <span style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="addCustomHurdle()" style="padding: 0.65rem 1.5rem; background: var(--accent); color: var(--primary); border: none; font-weight: 700; cursor: pointer; font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; white-space: nowrap; transition: all 0.2s; box-shadow: 0 2px 4px rgba(201, 161, 105, 0.3);" onmouseover="this.style.background='#b89159'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(201, 161, 105, 0.4)'" onmouseout="this.style.background='var(--accent)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(201, 161, 105, 0.3)'">
+                                + Add Hurdle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: white; border-left: 3px solid var(--accent); border-radius: 3px;">
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                            <strong style="color: var(--text-primary);">Example:</strong> 70% Investor / 30% Developer / 15% Target → Distributes profits 70/30 until Investor reaches 15% annual return
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div> <!-- end Phase 5 (Exit + Profit Summary) -->
+    </div>
+    </div> <!-- end modelPage -->
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // FIREBASE CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════════
+        
+        // Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyAW7z6hkE9z8pBCVyGwKPyAPj3IKFtfRZE",
+            authDomain: "encore-deal-analysis.firebaseapp.com",
+            projectId: "encore-deal-analysis",
+            storageBucket: "encore-deal-analysis.firebasestorage.app",
+            messagingSenderId: "44782149805",
+            appId: "1:44782149805:web:6398c3b0f2b1533ded6624",
+            measurementId: "G-1WTCRLT49F"
+        };
+
+        // Initialize Firebase - globals
+        let db = null;
+        let firebaseEnabled = false;
+        
+        // Function to initialize Firebase (called after page loads)
+        function initializeFirebase(retryCount = 0) {
+            try {
+                // Check if firebase is available
+                if (typeof firebase === 'undefined') {
+                    // Retry up to 3 times with increasing delays
+                    if (retryCount < 3) {
+                        const delay = (retryCount + 1) * 500;
+                        setTimeout(() => initializeFirebase(retryCount + 1), delay);
+                        return;
+                    }
+                    console.warn('Firebase SDK not available - using localStorage fallback');
+                    firebaseEnabled = false;
+                    // Load dashboard even if Firebase failed (will use localStorage)
+                    showDashboard();
+                    return;
+                }
+                
+                // Firebase SDK is loaded, initialize it
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                firebaseEnabled = true;
+                console.log('✅ Connected to Firebase');
+                
+                // Clean up old localStorage data (migration to Firebase)
+                cleanupLocalStorage();
+                
+                // Load dashboard after Firebase is ready
+                showDashboard();
+            } catch (error) {
+                console.error('Firebase initialization error:', error);
+                firebaseEnabled = false;
+                // Load dashboard anyway (will use localStorage)
+                showDashboard();
+            }
+        }
+        
+        // Clean up old localStorage project data
+        function cleanupLocalStorage() {
+            try {
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('project:')) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+                if (keysToRemove.length > 0) {
+                    console.log('🧹 Cleaned up', keysToRemove.length, 'old localStorage projects');
+                }
+            } catch (e) {
+                console.error('Error cleaning localStorage:', e);
+            }
+        }
+        
+        // Initialize Firebase when the page loads
+        window.addEventListener('load', () => {
+            initializeFirebase();
+        });
+
+        // ═══════════════════════════════════════════════════════════════════
+        // DATA STORAGE ABSTRACTION LAYER
+        // ═══════════════════════════════════════════════════════════════════
+        
+        // Unified storage API that works with both Firebase and localStorage
+        const DataStore = {
+            // Save a project
+            async saveProject(projectId, projectData) {
+                if (firebaseEnabled) {
+                    try {
+                        await db.collection('projects').doc(projectId).set(projectData);
+                        return true;
+                    } catch (error) {
+                        console.error('Firebase save error:', error);
+                        // Fallback to localStorage
+                        localStorage.setItem('project:' + projectId, JSON.stringify(projectData));
+                        return true;
+                    }
+                } else {
+                    localStorage.setItem('project:' + projectId, JSON.stringify(projectData));
+                    return true;
+                }
+            },
+            
+            // Get a single project
+            async getProject(projectId) {
+                if (firebaseEnabled) {
+                    try {
+                        const doc = await db.collection('projects').doc(projectId).get();
+                        if (doc.exists) {
+                            return doc.data();
+                        }
+                        return null;
+                    } catch (error) {
+                        console.error('❌ Firebase get failed:', error);
+                        // Fallback to localStorage
+                        const data = localStorage.getItem('project:' + projectId);
+                        return data ? JSON.parse(data) : null;
+                    }
+                } else {
+                    const data = localStorage.getItem('project:' + projectId);
+                    return data ? JSON.parse(data) : null;
+                }
+            },
+            
+            // Get all projects
+            async getAllProjects() {
+                if (firebaseEnabled) {
+                    try {
+                        const snapshot = await db.collection('projects').get();
+                        const projects = snapshot.docs.map(doc => doc.data());
+                        // Sort by savedAt date (newest first)
+                        return projects.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+                    } catch (error) {
+                        console.error('Firebase getAllProjects error:', error);
+                        // Fallback to localStorage
+                        return this.getAllProjectsFromLocalStorage();
+                    }
+                } else {
+                    return this.getAllProjectsFromLocalStorage();
+                }
+            },
+            
+            // Helper: Get all projects from localStorage
+            getAllProjectsFromLocalStorage() {
+                const projects = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('project:')) {
+                        try {
+                            const project = JSON.parse(localStorage.getItem(key));
+                            projects.push(project);
+                        } catch (e) {
+                            console.error('Error parsing project:', key);
+                        }
+                    }
+                }
+                return projects.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+            },
+            
+            // Delete a project
+            async deleteProject(projectId) {
+                if (firebaseEnabled) {
+                    try {
+                        await db.collection('projects').doc(projectId).delete();
+                        console.log('✅ Project deleted from Firebase:', projectId);
+                        return true;
+                    } catch (error) {
+                        console.error('❌ Firebase delete failed:', error);
+                        // Fallback to localStorage
+                        localStorage.removeItem('project:' + projectId);
+                        return true;
+                    }
+                } else {
+                    localStorage.removeItem('project:' + projectId);
+                    return true;
+                }
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // APPLICATION CODE
+        // ═══════════════════════════════════════════════════════════════════
+        
+        // Input elements
+        const acquisitionPriceInput = document.getElementById('acquisitionPrice');
+        const equityPercentInput = document.getElementById('equityPercent');
+        const entitlementMonthsInput = document.getElementById('entitlementMonths');
+        const sellableSqFtInput = document.getElementById('sellableSqFt');
+        const entitlementInterestRateInput = document.getElementById('entitlementInterestRate');
+        
+        const architectPriceSFInput = document.getElementById('architectPriceSF');
+        const architectInput = document.getElementById('architect');
+        const interiorDesignerPriceSFInput = document.getElementById('interiorDesignerPriceSF');
+        const interiorDesignerInput = document.getElementById('interiorDesigner');
+        const geotechEngineerInput = document.getElementById('geotechEngineer');
+        const civilEngineerInput = document.getElementById('civilEngineer');
+        const structuralEngineerInput = document.getElementById('structuralEngineer');
+        const landscapeArchitectInput = document.getElementById('landscapeArchitect');
+        const permitExpediterInput = document.getElementById('permitExpediter');
+        
+        const gradingPermitInput = document.getElementById('gradingPermit');
+        const buildingPermitInput = document.getElementById('buildingPermit');
+        const poolPermitInput = document.getElementById('poolPermit');
+        const haulRoutePermitInput = document.getElementById('haulRoutePermit');
+        const impactFeesInput = document.getElementById('impactFees');
+        
+        // Construction phase inputs
+        const constructionMonthsInput = document.getElementById('constructionMonths');
+        const sellingMonthsInput = document.getElementById('sellingMonths');
+        const constructionInterestRateInput = document.getElementById('constructionInterestRate');
+        const constructionCostPerSFInput = document.getElementById('constructionCostPerSF');
+        const hardConstructionCostInput = document.getElementById('hardConstructionCost');
+        const gcFeePercentInput = document.getElementById('gcFeePercent');
+        const gcFeeInput = document.getElementById('gcFee');
+        const poolLandscapeInput = document.getElementById('poolLandscape');
+        const constructionEquityPercentInput = document.getElementById('constructionEquityPercent');
+
+        // Display elements
+        const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+        const equityRequiredDisplay = document.getElementById('equityRequiredDisplay');
+        const debtPercentDisplay = document.getElementById('debtPercentDisplay');
+        const debtRequiredDisplay = document.getElementById('debtRequiredDisplay');
+        
+        const totalConsultantDisplay = document.getElementById('totalConsultantDisplay');
+        const totalPermitDisplay = document.getElementById('totalPermitDisplay');
+        const totalSoftCostsDisplay = document.getElementById('totalSoftCostsDisplay');
+        const entFinTotalDisplay    = document.getElementById('entFinTotalDisplay');
+        const entFinEquityDisplay  = document.getElementById('entFinEquityDisplay');
+        const entFinDebtPctDisplay = document.getElementById('entFinDebtPctDisplay');
+        const entFinDebtDisplay    = document.getElementById('entFinDebtDisplay');
+        
+        const totalConstructionDisplay = document.getElementById('totalConstructionDisplay');
+        const constructionEquityRequiredDisplay = document.getElementById('constructionEquityRequiredDisplay');
+        const constructionDebtPercentDisplay = document.getElementById('constructionDebtPercentDisplay');
+        const constructionDebtRequiredDisplay = document.getElementById('constructionDebtRequiredDisplay');
+        
+        // Exit Strategy inputs
+        const exitPricePerSqFtInput = document.getElementById('exitPricePerSqFt');
+        const entitlementEquityPercentInput = document.getElementById('entitlementEquityPercent');
+        const interestReserveIncludedInput  = document.getElementById('interestReserveIncluded');
+        const constructionInterestReserveIncludedInput = document.getElementById('constructionInterestReserveIncluded');
+        const investorEquityInput   = document.getElementById('investorEquity');
+        const developerEquityInput  = document.getElementById('developerEquity');
+        const preferredReturnRateInput = document.getElementById('preferredReturnRate');
+        
+        // Exit Strategy display elements
+        const exitSaleableSqFtDisplay = document.getElementById('exitSaleableSqFtDisplay');
+        const totalSalesRevenueDisplay = document.getElementById('totalSalesRevenueDisplay');
+        const totalProjectCostDisplay = document.getElementById('totalProjectCostDisplay');
+        const sellingExpensesDisplay = document.getElementById('sellingExpensesDisplay');
+        const netProfitDisplay = document.getElementById('netProfitDisplay');
+
+        // Global store for total debt service (set by generateCashFlowTable, read by calculateExitStrategy)
+        let globalTotalDebtService = 0;
+        let globalCumulativeEquity = 0;
+
+        function formatNumber(value) {
+            return Math.round(value).toLocaleString('en-US');
+        }
+        function fmtDollar(value) {
+            return '$' + Math.round(value).toLocaleString('en-US');
+        }
+        function fmtPercent(value) {
+            return value.toFixed(2) + '%';
+        }
+        function fmtSqFt(value) {
+            return Math.round(value).toLocaleString('en-US') + ' SQ.FT.';
+        }
+
+        function calculateAcquisition() {
+            const acquisitionPrice = parseFloat(acquisitionPriceInput.value.replace(/[$,]/g, '')) || 0;
+            const equityPercent = parseFloat(equityPercentInput.value) || 0;
+            
+            const equityRequired = acquisitionPrice * (equityPercent / 100);
+            const debtPercent = 100 - equityPercent;
+            const debtRequired = acquisitionPrice * (debtPercent / 100);
+
+            totalPriceDisplay.textContent = fmtDollar(acquisitionPrice);
+            equityRequiredDisplay.textContent = fmtDollar(equityRequired);
+            debtPercentDisplay.textContent = fmtPercent(debtPercent);
+            debtRequiredDisplay.textContent = fmtDollar(debtRequired);
+        }
+
+        function calculateEntitlement() {
+            const entitlementMonths = parseFloat(entitlementMonthsInput.value) || 0;
+            const sellableSqFt = parseFloat(sellableSqFtInput.value.replace(/,/g, '')) || 0;
+            
+            // Calculate architect and interior designer fees
+            const architectPriceSF = parseFloat(architectPriceSFInput.value) || 0;
+            const interiorDesignerPriceSF = parseFloat(interiorDesignerPriceSFInput.value) || 0;
+            
+            const architect = sellableSqFt * architectPriceSF;
+            const interiorDesigner = sellableSqFt * interiorDesignerPriceSF;
+            
+            // Display formatted values with $ and commas
+            const architectFormatted = Math.round(architect);
+            const interiorDesignerFormatted = Math.round(interiorDesigner);
+            architectInput.value = '$' + architectFormatted.toLocaleString('en-US');
+            interiorDesignerInput.value = '$' + interiorDesignerFormatted.toLocaleString('en-US');
+            
+            // Get other costs
+            const geotechEngineer = parseFloat(geotechEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const civilEngineer = parseFloat(civilEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const structuralEngineer = parseFloat(structuralEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const landscapeArchitect = parseFloat(landscapeArchitectInput.value.replace(/[$,]/g, '')) || 0;
+            const permitExpediter = parseFloat(permitExpediterInput.value.replace(/[$,]/g, '')) || 0;
+            
+            const totalConsultantCosts = architect + interiorDesigner + geotechEngineer + 
+                                         civilEngineer + structuralEngineer + landscapeArchitect + 
+                                         permitExpediter;
+            
+            const gradingPermit = parseFloat(gradingPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const buildingPermit = parseFloat(buildingPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const poolPermit = parseFloat(poolPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const haulRoutePermit = parseFloat(haulRoutePermitInput.value.replace(/[$,]/g, '')) || 0;
+            const impactFees = parseFloat(impactFeesInput.value.replace(/[$,]/g, '')) || 0;
+            
+            const totalPermitCosts = gradingPermit + buildingPermit + poolPermit + haulRoutePermit + impactFees;
+            const totalSoftCosts = totalConsultantCosts + totalPermitCosts;
+            
+            // Update displays
+            totalConsultantDisplay.textContent = fmtDollar(totalConsultantCosts);
+            totalPermitDisplay.textContent = fmtDollar(totalPermitCosts);
+            totalSoftCostsDisplay.textContent = fmtDollar(totalSoftCosts);
+
+            // Entitlement financing table
+            const entEquityPct = parseFloat(entitlementEquityPercentInput.value) || 0;
+            const entDebtPct   = 100 - entEquityPct;
+            const entEquityAmt = totalSoftCosts * (entEquityPct / 100);
+            const entDebtAmt   = totalSoftCosts * (entDebtPct / 100);
+            entFinTotalDisplay.textContent    = fmtDollar(totalSoftCosts);
+            entFinEquityDisplay.textContent   = fmtDollar(entEquityAmt);
+            entFinDebtPctDisplay.textContent  = fmtPercent(entDebtPct);
+            entFinDebtDisplay.textContent     = fmtDollar(entDebtAmt);
+        }
+
+        function calculateConstruction() {
+            const sellableSqFt = parseFloat(sellableSqFtInput.value.replace(/,/g, '')) || 0;
+            
+            // Calculate hard construction cost from Cost per SQ.FT.
+            const constructionCostPerSF = parseFloat(constructionCostPerSFInput.value) || 0;
+            const hardConstructionCost = sellableSqFt * constructionCostPerSF;
+            
+            // Update the calculated field with formatting
+            hardConstructionCostInput.value = '$' + Math.round(hardConstructionCost).toLocaleString('en-US');
+            
+            // Calculate GC Fee from percentage of Hard Construction Cost
+            const gcFeePercent = parseFloat(gcFeePercentInput.value) || 0;
+            const gcFee = hardConstructionCost * (gcFeePercent / 100);
+            
+            // Update the calculated GC Fee field with formatting
+            gcFeeInput.value = '$' + Math.round(gcFee).toLocaleString('en-US');
+            
+            // Get other costs
+            const poolLandscape = parseFloat(poolLandscapeInput.value.replace(/[$,]/g, '')) || 0;
+            
+            const totalConstructionCosts = hardConstructionCost + gcFee + poolLandscape;
+            
+            // Calculate equity and debt for construction
+            const constructionEquityPercent = parseFloat(constructionEquityPercentInput.value) || 0;
+            const constructionEquityRequired = totalConstructionCosts * (constructionEquityPercent / 100);
+            const constructionDebtPercent = 100 - constructionEquityPercent;
+            const constructionDebtRequired = totalConstructionCosts * (constructionDebtPercent / 100);
+            
+            // Update displays
+            totalConstructionDisplay.textContent = fmtDollar(totalConstructionCosts);
+            constructionEquityRequiredDisplay.textContent = fmtDollar(constructionEquityRequired);
+            constructionDebtPercentDisplay.textContent = fmtPercent(constructionDebtPercent);
+            constructionDebtRequiredDisplay.textContent = fmtDollar(constructionDebtRequired);
+        }
+
+        function generateCashFlowTable() {
+            // Update tooltip based on interest reserve checkbox
+            const includeReserve = interestReserveIncludedInput.checked;
+            const tooltipText = includeReserve 
+                ? "Includes all debt service payments up to this month" 
+                : "Does not include debt service (interest reserve not capitalized)";
+            const cumDebtHeader = document.getElementById('cumDebtHeader');
+            if (cumDebtHeader) {
+                cumDebtHeader.setAttribute('data-tooltip', tooltipText);
+            }
+            
+            const entitlementMonths = parseFloat(entitlementMonthsInput.value) || 0;
+            const constructionMonths = parseFloat(constructionMonthsInput.value) || 0;
+            const sellingMonths = parseFloat(sellingMonthsInput.value) || 0;
+            const totalMonths = Math.ceil(entitlementMonths + constructionMonths + sellingMonths);
+            
+            const container = document.getElementById('phase4Content');
+            
+            if (totalMonths === 0) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);">Enter Entitlement Duration and Construction Duration to generate Cash Flow table</div>';
+                return;
+            }
+            
+            // Get all costs
+            const acquisitionPrice = parseFloat(acquisitionPriceInput.value.replace(/[$,]/g, '')) || 0;
+            const acquisitionEquityPercent = parseFloat(equityPercentInput.value) || 0;
+            const acquisitionEquity = acquisitionPrice * (acquisitionEquityPercent / 100);
+            const acquisitionDebt = acquisitionPrice * ((100 - acquisitionEquityPercent) / 100);
+            
+            // Entitlement costs
+            const architect = parseFloat(architectInput.value.replace(/[$,]/g, '')) || 0;
+            const interiorDesigner = parseFloat(interiorDesignerInput.value.replace(/[$,]/g, '')) || 0;
+            const geotechEngineer = parseFloat(geotechEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const civilEngineer = parseFloat(civilEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const structuralEngineer = parseFloat(structuralEngineerInput.value.replace(/[$,]/g, '')) || 0;
+            const landscapeArchitect = parseFloat(landscapeArchitectInput.value.replace(/[$,]/g, '')) || 0;
+            const permitExpediter = parseFloat(permitExpediterInput.value.replace(/[$,]/g, '')) || 0;
+            const gradingPermit = parseFloat(gradingPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const buildingPermit = parseFloat(buildingPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const poolPermit = parseFloat(poolPermitInput.value.replace(/[$,]/g, '')) || 0;
+            const haulRoutePermit = parseFloat(haulRoutePermitInput.value.replace(/[$,]/g, '')) || 0;
+            const impactFees = parseFloat(impactFeesInput.value.replace(/[$,]/g, '')) || 0;
+            
+            const totalEntitlementCosts = architect + interiorDesigner + geotechEngineer + civilEngineer + 
+                                          structuralEngineer + landscapeArchitect + permitExpediter + 
+                                          gradingPermit + buildingPermit + poolPermit + haulRoutePermit + impactFees;
+            const monthlyEntitlementCost = entitlementMonths > 0 ? totalEntitlementCosts / entitlementMonths : 0;
+            
+            // Construction costs
+            const hardConstructionCost = parseFloat(hardConstructionCostInput.value.replace(/[$,]/g, '')) || 0;
+            const gcFee = parseFloat(gcFeeInput.value.replace(/[$,]/g, '')) || 0;
+            const poolLandscape = parseFloat(poolLandscapeInput.value.replace(/[$,]/g, '')) || 0;
+            const totalConstructionCosts = hardConstructionCost + gcFee + poolLandscape;
+            const monthlyConstructionCost = constructionMonths > 0 ? totalConstructionCosts / constructionMonths : 0;
+            
+            // Interest rates (annual % converted to monthly)
+            const entitlementInterestRate = (parseFloat(entitlementInterestRateInput.value) || 0) / 100 / 12;
+            const constructionInterestRate = (parseFloat(constructionInterestRateInput.value) || 0) / 100 / 12;
+            
+            // Calculate equity percentages
+            const entitlementEquityPercent = (parseFloat(entitlementEquityPercentInput.value) || 0) / 100;
+            const constructionEquityPercent = (parseFloat(constructionEquityPercentInput.value) || 0) / 100;
+            
+            let tableHTML = `
+                <table class="excel-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">Month</th>
+                            <th style="width: 13%;">New Investment</th>
+                            <th style="width: 13%;">Cum Total Balance</th>
+                            <th style="width: 13%;">New Equity Balance</th>
+                            <th style="width: 13%;">Cum Equity Balance</th>
+                            <th style="width: 13%;">New Debt Balance</th>
+                            <th style="width: 12%;">Debt Service</th>
+                            <th style="width: 13%;" class="tooltip-header" id="cumDebtHeader">Cum Debt Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            let cumulativeTotal = 0;
+            let cumulativeEquity = 0;
+            let cumulativeDebt = 0;
+            let totalDebtService = 0;
+
+            // Pre-calculate total equity buckets for each phase (equity goes in 100% first)
+            const entitlementTotalEquity    = totalEntitlementCosts * entitlementEquityPercent;
+            const constructionTotalEquity   = totalConstructionCosts * constructionEquityPercent;
+            let entitlementEquityRemaining  = entitlementTotalEquity;
+            let constructionEquityRemaining = constructionTotalEquity;
+            
+            for (let month = 0; month <= totalMonths; month++) {
+                let newInvestment = 0;
+                let newEquity = 0;
+                let newDebt = 0;
+                let debtService = 0;
+                let rowClass = '';
+                let phaseLabel = '';
+                
+                // Month 0: Acquisition
+                if (month === 0) {
+                    newInvestment = acquisitionPrice;
+                    newEquity = acquisitionEquity;
+                    newDebt = acquisitionDebt;
+                    rowClass = 'section-header';
+                    phaseLabel = 'ACQUISITION PHASE';
+                }
+                // Entitlement months — equity-first waterfall
+                else if (month <= entitlementMonths) {
+                    if (month === 1) {
+                        rowClass = 'section-header';
+                        phaseLabel = 'ENTITLEMENT PHASE';
+                    }
+                    newInvestment = monthlyEntitlementCost;
+                    // Draw from equity bucket first; once exhausted, 100% debt
+                    newEquity = Math.min(newInvestment, entitlementEquityRemaining);
+                    newDebt   = newInvestment - newEquity;
+                    entitlementEquityRemaining -= newEquity;
+                    // Debt service accrues on accumulated debt
+                    debtService = cumulativeDebt * entitlementInterestRate;
+                }
+                // Construction months — equity-first waterfall
+                else if (month <= Math.ceil(entitlementMonths + constructionMonths)) {
+                    // First month of construction: refinance the accumulated balance
+                    if (month === Math.ceil(entitlementMonths) + 1) {
+                        rowClass = 'section-header';
+                        phaseLabel = 'CONSTRUCTION PHASE';
+                        
+                        // Refinance: roll existing balance into construction equity/debt split
+                        const accruedDebtService = cumulativeDebt - (cumulativeTotal - cumulativeEquity);
+                        const balanceToRefinance = cumulativeTotal + accruedDebtService;
+                        const newEquityFromRefinance = balanceToRefinance * constructionEquityPercent;
+                        const newDebtFromRefinance   = balanceToRefinance * (1 - constructionEquityPercent);
+                        
+                        // Reset balances with refinanced amounts
+                        cumulativeTotal  = balanceToRefinance;
+                        cumulativeEquity = newEquityFromRefinance;
+                        cumulativeDebt   = newDebtFromRefinance;
+                    }
+                    
+                    newInvestment = monthlyConstructionCost;
+                    // Draw from equity bucket first; once exhausted, 100% debt
+                    newEquity = Math.min(newInvestment, constructionEquityRemaining);
+                    newDebt   = newInvestment - newEquity;
+                    constructionEquityRemaining -= newEquity;
+                    debtService = cumulativeDebt * constructionInterestRate;
+                }
+                // Selling months - no new investment, just carry the balance
+                else {
+                    if (month === Math.ceil(entitlementMonths + constructionMonths) + 1) {
+                        rowClass = 'section-header';
+                        phaseLabel = 'SELLING PHASE';
+                    }
+                    newInvestment = 0;
+                    newEquity = 0;
+                    newDebt = 0;
+                    // Continue accruing debt service at construction interest rate
+                    debtService = cumulativeDebt * constructionInterestRate;
+                }
+                
+                cumulativeTotal  += newInvestment;
+                cumulativeEquity += newEquity;
+                // Determine which interest reserve checkbox to use based on phase
+                let includeInterestReserve = false;
+                if (month === 0) {
+                    // Acquisition: no interest reserve option (always capitalized)
+                    includeInterestReserve = true;
+                } else if (month <= entitlementMonths) {
+                    // Entitlement phase
+                    includeInterestReserve = interestReserveIncludedInput.checked;
+                } else {
+                    // Construction and Selling phases
+                    includeInterestReserve = constructionInterestReserveIncludedInput.checked;
+                }
+                cumulativeDebt   += newDebt + (includeInterestReserve ? debtService : 0);
+                totalDebtService += debtService;
+                
+                // Add phase header row if this is the start of a phase
+                if (phaseLabel) {
+                    tableHTML += `
+                        <tr class="${rowClass}">
+                            <td colspan="8" style="text-align: center; font-weight: 700; letter-spacing: 0.05em;">${phaseLabel}</td>
+                        </tr>
+                    `;
+                }
+                
+                tableHTML += `
+                    <tr>
+                        <td class="row-header">Month ${month}</td>
+                        <td class="align-right display-cell">${fmtDollar(newInvestment)}</td>
+                        <td class="align-right display-cell">${fmtDollar(cumulativeTotal)}</td>
+                        <td class="align-right display-cell">${fmtDollar(newEquity)}</td>
+                        <td class="align-right display-cell">${fmtDollar(cumulativeEquity)}</td>
+                        <td class="align-right display-cell">${fmtDollar(newDebt)}</td>
+                        <td class="align-right display-cell">${fmtDollar(debtService)}</td>
+                        <td class="align-right display-cell tooltip-cell" data-tooltip="${tooltipText}">${fmtDollar(cumulativeDebt)}</td>
+                    </tr>
+                `;
+            }
+            
+            // Add total row
+            tableHTML += `
+                <tr class="total-row">
+                    <td class="row-header"><strong>TOTAL</strong></td>
+                    <td class="align-right display-cell">${fmtDollar(cumulativeTotal)}</td>
+                    <td class="align-right display-cell">${fmtDollar(cumulativeTotal)}</td>
+                    <td class="align-right display-cell"></td>
+                    <td class="align-right display-cell">${fmtDollar(cumulativeEquity)}</td>
+                    <td class="align-right display-cell"></td>
+                    <td class="align-right display-cell">${fmtDollar(totalDebtService)}</td>
+                    <td class="align-right display-cell tooltip-cell" data-tooltip="${tooltipText}">${fmtDollar(cumulativeDebt)}</td>
+                </tr>
+            `;
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+
+            // Store globally so calculateExitStrategy and calculateProfitSummary can access it
+            globalTotalDebtService = totalDebtService;
+            globalCumulativeEquity = cumulativeEquity;
+            calculateExitStrategy();
+        }
+
+        function calculateExitStrategy() {
+            // Get Saleable Square Footage from Phase 2
+            const saleableSqFt = parseFloat(sellableSqFtInput.value.replace(/,/g, '')) || 0;
+            
+            // Get Price Per Sq.Ft. input (Base Case)
+            const basePricePerSqFt = parseFloat(exitPricePerSqFtInput.value.replace(/[$,]/g, '')) || 0;
+            
+            // ── Cost components ──────────────────────────────────────────────
+            const acquisitionCost = parseFloat(acquisitionPriceInput.value.replace(/[$,]/g, '')) || 0;
+
+            const architect        = parseFloat(architectInput.value.replace(/[$,]/g, ''))        || 0;
+            const interiorDesigner = parseFloat(interiorDesignerInput.value.replace(/[$,]/g, '')) || 0;
+            const geotechEngineer  = parseFloat(geotechEngineerInput.value.replace(/[$,]/g, "")) || 0;
+            const civilEngineer    = parseFloat(civilEngineerInput.value.replace(/[$,]/g, "")) || 0;
+            const structuralEngineer = parseFloat(structuralEngineerInput.value.replace(/[$,]/g, "")) || 0;
+            const landscapeArchitect = parseFloat(landscapeArchitectInput.value.replace(/[$,]/g, "")) || 0;
+            const permitExpediter  = parseFloat(permitExpediterInput.value.replace(/[$,]/g, "")) || 0;
+            const gradingPermit    = parseFloat(gradingPermitInput.value.replace(/[$,]/g, "")) || 0;
+            const buildingPermit   = parseFloat(buildingPermitInput.value.replace(/[$,]/g, "")) || 0;
+            const poolPermit       = parseFloat(poolPermitInput.value.replace(/[$,]/g, "")) || 0;
+            const haulRoutePermit  = parseFloat(haulRoutePermitInput.value.replace(/[$,]/g, "")) || 0;
+            const impactFees       = parseFloat(impactFeesInput.value.replace(/[$,]/g, "")) || 0;
+            const entitlementCost  = architect + interiorDesigner + geotechEngineer + civilEngineer +
+                                     structuralEngineer + landscapeArchitect + permitExpediter +
+                                     gradingPermit + buildingPermit + poolPermit + haulRoutePermit + impactFees;
+
+            const hardConstructionCost = parseFloat(hardConstructionCostInput.value.replace(/[$,]/g, "")) || 0;
+            const gcFee          = parseFloat(gcFeeInput.value.replace(/[$,]/g, ""))          || 0;
+            const poolLandscape  = parseFloat(poolLandscapeInput.value.replace(/[$,]/g, "")) || 0;
+            const constructionCost = hardConstructionCost + gcFee + poolLandscape;
+
+            const financingCost  = globalTotalDebtService;
+
+            const totalProjectCost = acquisitionCost + entitlementCost + constructionCost + financingCost;
+
+            // ── Helper to set all 8 columns for a given row prefix ──────────
+            const scenarios = [
+                { id: 'p5',   multiplier: 1.050 },
+                { id: 'p2_5', multiplier: 1.025 },
+                { id: 'n2_5', multiplier: 0.975 },
+                { id: 'n5',   multiplier: 0.950 },
+                { id: 'n7_5', multiplier: 0.925 },
+                { id: 'n10',  multiplier: 0.900 }
+            ];
+
+            function setRow(prefix, value) {
+                const el = document.getElementById(`${prefix}Display`);
+                if (el) el.textContent = fmtDollar(value);
+                scenarios.forEach(s => {
+                    const sel = document.getElementById(`${prefix}_${s.id}`);
+                    if (sel) sel.textContent = fmtDollar(value);
+                });
+            }
+
+            // ── Base Case ────────────────────────────────────────────────────
+            const baseSalesRevenue    = saleableSqFt * basePricePerSqFt;
+            const baseSellingExpenses = baseSalesRevenue * 0.045;
+            const baseNetProfit       = baseSalesRevenue - totalProjectCost - baseSellingExpenses;
+
+            exitSaleableSqFtDisplay.textContent       = fmtSqFt(saleableSqFt);
+            totalSalesRevenueDisplay.textContent      = fmtDollar(baseSalesRevenue);
+            totalProjectCostDisplay.textContent       = fmtDollar(totalProjectCost);
+            sellingExpensesDisplay.textContent        = fmtDollar(baseSellingExpenses);
+            netProfitDisplay.textContent              = fmtDollar(baseNetProfit);
+
+            const baseProfitPct = totalProjectCost !== 0 ? (baseNetProfit / totalProjectCost) * 100 : 0;
+            document.getElementById('profitPctDisplay').textContent = fmtPercent(baseProfitPct);
+
+            // Breakdown rows - same value across all scenarios
+            setRow('acqCost', acquisitionCost);
+            setRow('entCost', entitlementCost);
+            setRow('conCost', constructionCost);
+            setRow('finCost', financingCost);
+
+            // ── Scenario columns ─────────────────────────────────────────────
+            scenarios.forEach(scenario => {
+                const scenarioPricePerSqFt    = basePricePerSqFt * scenario.multiplier;
+                const scenarioSalesRevenue    = saleableSqFt * scenarioPricePerSqFt;
+                const scenarioSellingExpenses = scenarioSalesRevenue * 0.045;
+                const scenarioNetProfit       = scenarioSalesRevenue - totalProjectCost - scenarioSellingExpenses;
+
+                document.getElementById(`exitSaleableSqFt_${scenario.id}`).textContent  = fmtSqFt(saleableSqFt);
+                document.getElementById(`pricePerSqFt_${scenario.id}`).textContent      = fmtDollar(scenarioPricePerSqFt);
+                document.getElementById(`salesRevenue_${scenario.id}`).textContent      = fmtDollar(scenarioSalesRevenue);
+                document.getElementById(`projectCost_${scenario.id}`).textContent       = fmtDollar(totalProjectCost);
+                document.getElementById(`sellingExpenses_${scenario.id}`).textContent   = fmtDollar(scenarioSellingExpenses);
+                document.getElementById(`netProfit_${scenario.id}`).textContent         = fmtDollar(scenarioNetProfit);
+
+                const scenarioProfitPct = totalProjectCost !== 0 ? (scenarioNetProfit / totalProjectCost) * 100 : 0;
+                document.getElementById(`profitPct_${scenario.id}`).textContent = fmtPercent(scenarioProfitPct);
+            });
+        }
+
+        function calculateProfitSummary() {
+            // Get cumulative equity from cash flow table
+            const investorEquityPct = parseFloat(investorEquityInput.value) || 0;
+            const developerEquityPct = parseFloat(developerEquityInput.value) || 0;
+            
+            // Get total equity invested from the cash flow table
+            const totalEquityInvested = globalCumulativeEquity || 0;
+            
+            // Get net profit from exit strategy
+            const netProfit = parseFloat(netProfitDisplay.textContent.replace(/[$,]/g, '')) || 0;
+            
+            // Calculate Hurdle 1: Return Equity
+            const investorEquityInvested = totalEquityInvested * (investorEquityPct / 100);
+            const developerEquityInvested = totalEquityInvested * (developerEquityPct / 100);
+            
+            // Calculate Hurdle 2: Preferred Return (user-defined % annual over entire project duration)
+            // Get total project duration in months
+            const entitlementMonths = parseFloat(entitlementMonthsInput.value) || 0;
+            const constructionMonths = parseFloat(constructionMonthsInput.value) || 0;
+            const sellingMonths = parseFloat(sellingMonthsInput.value) || 0;
+            const totalMonths = entitlementMonths + constructionMonths + sellingMonths;
+            
+            // Calculate preferred return using user input
+            const preferredReturnRate = (parseFloat(preferredReturnRateInput.value) || 0) / 100; // Convert % to decimal
+            const yearsOfProject = totalMonths / 12;
+            const investorPreferredReturn = investorEquityInvested * preferredReturnRate * yearsOfProject;
+            const developerPreferredReturn = developerEquityInvested * preferredReturnRate * yearsOfProject;
+            
+            // Update the display
+            document.getElementById('hurdle1Investor').textContent = fmtDollar(investorEquityInvested);
+            document.getElementById('hurdle1Developer').textContent = fmtDollar(developerEquityInvested);
+            document.getElementById('hurdle2Investor').textContent = fmtDollar(investorPreferredReturn);
+            document.getElementById('hurdle2Developer').textContent = fmtDollar(developerPreferredReturn);
+            
+            // Update summary data points at the top
+            document.getElementById('totalEquityDisplay').textContent = fmtDollar(totalEquityInvested);
+            document.getElementById('totalProfitDistributionDisplay').textContent = fmtDollar(netProfit);
+            
+            // Recalculate custom hurdles
+            calculateCustomHurdles();
+        }
+
+        // Store custom hurdles
+        let customHurdles = [];
+
+        function addCustomHurdle() {
+            const investorPct = parseFloat(document.getElementById('newHurdleInvestorPct').value);
+            const developerPct = parseFloat(document.getElementById('newHurdleDeveloperPct').value);
+            const targetReturn = parseFloat(document.getElementById('newHurdleTargetReturn').value);
+            
+            if (isNaN(investorPct) || isNaN(targetReturn)) {
+                alert('Please fill in Investor % and Target Return %');
+                return;
+            }
+            
+            // Developer % is auto-calculated, so no need to validate the sum equals 100
+            
+            // Add the hurdle
+            customHurdles.push({
+                investorPct: investorPct,
+                developerPct: developerPct,
+                targetReturn: targetReturn
+            });
+            
+            // Clear the input fields
+            document.getElementById('newHurdleInvestorPct').value = '';
+            document.getElementById('newHurdleDeveloperPct').value = '';
+            document.getElementById('newHurdleTargetReturn').value = '';
+            
+            // Recalculate and display
+            calculateCustomHurdles();
+        }
+
+        function calculateCustomHurdles() {
+            const tbody = document.getElementById('profitSummaryBody');
+            
+            // Remove existing custom hurdle rows (keep only first 2 rows)
+            while (tbody.rows.length > 2) {
+                tbody.deleteRow(2);
+            }
+            
+            // Get base values
+            const investorEquityPct = parseFloat(investorEquityInput.value) || 0;
+            const developerEquityPct = parseFloat(developerEquityInput.value) || 0;
+            const totalEquityInvested = globalCumulativeEquity || 0;
+            const investorEquityInvested = totalEquityInvested * (investorEquityPct / 100);
+            const developerEquityInvested = totalEquityInvested * (developerEquityPct / 100);
+            
+            // Get project duration
+            const entitlementMonths = parseFloat(entitlementMonthsInput.value) || 0;
+            const constructionMonths = parseFloat(constructionMonthsInput.value) || 0;
+            const sellingMonths = parseFloat(sellingMonthsInput.value) || 0;
+            const totalMonths = entitlementMonths + constructionMonths + sellingMonths;
+            const yearsOfProject = totalMonths / 12;
+            
+            // Get net profit
+            const netProfit = parseFloat(netProfitDisplay.textContent.replace(/[$,]/g, '')) || 0;
+            
+            // Calculate Hurdle 1 and 2 values
+            const hurdle1Investor = investorEquityInvested;
+            const hurdle1Developer = developerEquityInvested;
+            const hurdle1Total = hurdle1Investor + hurdle1Developer;
+            
+            // Get preferred return rate - ensure it's a valid number
+            const preferredReturnRateValue = preferredReturnRateInput.value;
+            const preferredReturnRate = (parseFloat(preferredReturnRateValue) || 0) / 100; // Convert % to decimal
+            
+            // Calculate Hurdle 2 - only if we have positive years and rate
+            let hurdle2Investor = 0;
+            let hurdle2Developer = 0;
+            let hurdle2Total = 0;
+            
+            if (yearsOfProject > 0 && preferredReturnRate > 0) {
+                hurdle2Investor = investorEquityInvested * preferredReturnRate * yearsOfProject;
+                hurdle2Developer = developerEquityInvested * preferredReturnRate * yearsOfProject;
+                hurdle2Total = hurdle2Investor + hurdle2Developer;
+            }
+            
+            // Cap Hurdle 2 to not exceed net profit (Hurdle 1 is return of equity, not profit distribution)
+            if (hurdle2Total > netProfit) {
+                // Scale down Hurdle 2 proportionally to fit within net profit
+                const scaleFactor = netProfit / hurdle2Total;
+                hurdle2Investor = hurdle2Investor * scaleFactor;
+                hurdle2Developer = hurdle2Developer * scaleFactor;
+                hurdle2Total = hurdle2Investor + hurdle2Developer;
+            }
+            
+            // Update display with capped values
+            document.getElementById('hurdle2Investor').textContent = fmtDollar(hurdle2Investor);
+            document.getElementById('hurdle2Developer').textContent = fmtDollar(hurdle2Developer);
+            
+            // Track cumulative distributions (start with Hurdle 2 only, as Hurdle 1 is return of equity)
+            let cumulativeInvestorReturn = hurdle2Investor;
+            let cumulativeDeveloperReturn = hurdle2Developer;
+            
+            // Remaining profit after Hurdle 2 (Hurdle 1 does NOT reduce profit!)
+            let remainingProfit = netProfit - hurdle2Total;
+            
+            // Track total amounts distributed (including return of equity)
+            let totalInvestorDistribution = hurdle1Investor + hurdle2Investor;
+            let totalDeveloperDistribution = hurdle1Developer + hurdle2Developer;
+            
+            // Add each custom hurdle
+            customHurdles.forEach((hurdle, index) => {
+                const hurdleNum = index + 3; // Starting from Hurdle 3
+                
+                // Calculate target return amount
+                const targetReturnAmount = investorEquityInvested * (hurdle.targetReturn / 100) * yearsOfProject;
+                
+                // Calculate how much is needed to reach target
+                const neededForTarget = targetReturnAmount - cumulativeInvestorReturn;
+                
+                // Distribute remaining profit according to split percentages
+                const investorShare = hurdle.investorPct / 100;
+                const developerShare = hurdle.developerPct / 100;
+                
+                // Calculate distribution amounts
+                let investorDistribution = 0;
+                let developerDistribution = 0;
+                
+                if (neededForTarget > 0 && remainingProfit > 0) {
+                    // Distribute until investor reaches target or profit runs out
+                    const maxDistribution = Math.min(remainingProfit, neededForTarget / investorShare);
+                    investorDistribution = maxDistribution * investorShare;
+                    developerDistribution = maxDistribution * developerShare;
+                    
+                    cumulativeInvestorReturn += investorDistribution;
+                    cumulativeDeveloperReturn += developerDistribution;
+                    totalInvestorDistribution += investorDistribution;
+                    totalDeveloperDistribution += developerDistribution;
+                    remainingProfit -= (investorDistribution + developerDistribution);
+                }
+                
+                // Create row
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td class="row-header">
+                        Hurdle ${hurdleNum}
+                        <button onclick="removeCustomHurdle(${index})" style="margin-left: 0.5rem; padding: 0.2rem 0.5rem; background: #d9534f; color: white; border: none; cursor: pointer; font-size: 0.7rem; border-radius: 3px;">Remove</button>
+                    </td>
+                    <td>Distribute ${hurdle.investorPct}% / ${hurdle.developerPct}% Until Investor Return Reach ${hurdle.targetReturn}%</td>
+                    <td class="align-right display-cell">${fmtDollar(investorDistribution)}</td>
+                    <td class="align-right display-cell">${fmtDollar(developerDistribution)}</td>
+                `;
+            });
+            
+            // Add remaining profit row if there's any left
+            if (remainingProfit > 0) {
+                const row = tbody.insertRow();
+                row.style.backgroundColor = '#fff9e6';
+                row.innerHTML = `
+                    <td class="row-header"><strong>Remaining Profit</strong></td>
+                    <td colspan="3" class="align-right display-cell"><strong>${fmtDollar(remainingProfit)}</strong></td>
+                `;
+            }
+            
+            // Add total distribution row - ALWAYS SHOW
+            const totalRow = tbody.insertRow();
+            totalRow.className = 'total-row';
+            totalRow.style.borderTop = '3px double var(--grid-border)';
+            totalRow.style.backgroundColor = '#e8f4f8';
+            totalRow.innerHTML = `
+                <td class="row-header" colspan="2"><strong>TOTAL DISTRIBUTION</strong></td>
+                <td class="align-right display-cell"><strong>${fmtDollar(totalInvestorDistribution)}</strong></td>
+                <td class="align-right display-cell"><strong>${fmtDollar(totalDeveloperDistribution)}</strong></td>
+            `;
+            
+            // Add Equity Return breakdown row
+            const equityReturnRow = tbody.insertRow();
+            equityReturnRow.className = 'breakdown-row';
+            equityReturnRow.innerHTML = `
+                <td class="row-header" colspan="2" style="padding-left: 2.5rem;">↳ Equity Return</td>
+                <td class="align-right display-cell">${fmtDollar(hurdle1Investor)}</td>
+                <td class="align-right display-cell">${fmtDollar(hurdle1Developer)}</td>
+            `;
+            
+            // Add Profit Distribution breakdown row
+            const profitInvestor = totalInvestorDistribution - hurdle1Investor;
+            const profitDeveloper = totalDeveloperDistribution - hurdle1Developer;
+            const profitDistRow = tbody.insertRow();
+            profitDistRow.className = 'breakdown-row';
+            profitDistRow.innerHTML = `
+                <td class="row-header" colspan="2" style="padding-left: 2.5rem;">↳ Profit Distribution</td>
+                <td class="align-right display-cell">${fmtDollar(profitInvestor)}</td>
+                <td class="align-right display-cell">${fmtDollar(profitDeveloper)}</td>
+            `;
+            
+            // Add Return On Equity (ROE) row - ALWAYS SHOW
+            const investorROE = investorEquityInvested > 0 
+                ? ((totalInvestorDistribution - investorEquityInvested) / investorEquityInvested * 100).toFixed(2) + '%'
+                : 'N/A';
+            const developerROE = developerEquityInvested > 0
+                ? ((totalDeveloperDistribution - developerEquityInvested) / developerEquityInvested * 100).toFixed(2) + '%'
+                : 'N/A';
+            
+            const roeRow = tbody.insertRow();
+            roeRow.style.backgroundColor = '#f0f8ff';
+            roeRow.style.fontWeight = '600';
+            roeRow.innerHTML = `
+                <td class="row-header" colspan="2"><strong>RETURN ON EQUITY (ROE)</strong></td>
+                <td class="align-right display-cell"><strong>${investorROE}</strong></td>
+                <td class="align-right display-cell"><strong>${developerROE}</strong></td>
+            `;
+        }
+
+        function removeCustomHurdle(index) {
+            customHurdles.splice(index, 1);
+            calculateCustomHurdles();
+        }
+
+        // Event listeners
+        acquisitionPriceInput.addEventListener('input', () => {
+            calculateAcquisition();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        equityPercentInput.addEventListener('input', () => {
+            calculateAcquisition();
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        
+        entitlementMonthsInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        sellableSqFtInput.addEventListener('input', () => {
+            calculateEntitlement();
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        
+        entitlementInterestRateInput.addEventListener('input', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        constructionInterestRateInput.addEventListener('input', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        constructionMonthsInput.addEventListener('input', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        sellingMonthsInput.addEventListener('input', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        
+        architectPriceSFInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        interiorDesignerPriceSFInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        geotechEngineerInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        civilEngineerInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        structuralEngineerInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        landscapeArchitectInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        permitExpediterInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        gradingPermitInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        buildingPermitInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        poolPermitInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        haulRoutePermitInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        impactFeesInput.addEventListener('input', () => {
+            calculateEntitlement();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        
+        // Construction phase event listeners
+        constructionCostPerSFInput.addEventListener('input', () => {
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        gcFeePercentInput.addEventListener('input', () => {
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        poolLandscapeInput.addEventListener('input', () => {
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        constructionEquityPercentInput.addEventListener('input', () => {
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        
+        // Exit Strategy event listeners
+        exitPricePerSqFtInput.addEventListener('input', () => {
+            calculateExitStrategy();
+            calculateProfitSummary();
+        });
+        entitlementEquityPercentInput.addEventListener('input', () => { 
+            calculateEntitlement(); 
+            generateCashFlowTable(); 
+            calculateProfitSummary();
+        });
+        interestReserveIncludedInput.addEventListener('change', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+        constructionInterestReserveIncludedInput.addEventListener('change', () => {
+            generateCashFlowTable();
+            calculateProfitSummary();
+        });
+
+        // ─── EXPORT CASH FLOW TO EXCEL ───────────────────────────────────────
+        function exportCashFlowToExcel() {
+            // Check if XLSX library is loaded
+            if (typeof XLSX === 'undefined') {
+                alert('Excel export library failed to load. Please check your internet connection and refresh the page.');
+                return;
+            }
+            
+            // Extract data from the cash flow table
+            const table = document.querySelector('#phase4Content table');
+            if (!table) {
+                alert('No cash flow data to export. Please fill in project details first.');
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+            const ws_data = [];
+
+            // Get table rows
+            const rows = table.querySelectorAll('tr');
+            rows.forEach(row => {
+                const rowData = [];
+                const cells = row.querySelectorAll('th, td');
+                cells.forEach(cell => {
+                    // Get text content, strip $ signs and commas for numbers
+                    let text = cell.textContent.trim();
+                    
+                    // Handle colspan phase headers
+                    if (cell.hasAttribute('colspan')) {
+                        rowData.push(text);
+                        return;
+                    }
+                    
+                    // Convert currency strings to numbers
+                    if (text.startsWith('$')) {
+                        text = text.replace(/[$,]/g, '');
+                        const num = parseFloat(text);
+                        rowData.push(isNaN(num) ? text : num);
+                    }
+                    // Convert percentage strings to numbers
+                    else if (text.endsWith('%')) {
+                        text = text.replace(/%/g, '');
+                        const num = parseFloat(text);
+                        rowData.push(isNaN(num) ? text : num / 100); // Store as decimal
+                    }
+                    else {
+                        rowData.push(text);
+                    }
+                });
+                ws_data.push(rowData);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            
+            // Set column widths
+            ws['!cols'] = [
+                { wch: 12 },  // Month
+                { wch: 16 },  // New Investment
+                { wch: 18 },  // Cum Total Balance
+                { wch: 16 },  // New Equity Balance
+                { wch: 18 },  // Cum Equity Balance
+                { wch: 16 },  // New Debt Balance
+                { wch: 18 },  // Cum Debt Balance
+                { wch: 14 }   // Debt Service
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Cash Flow');
+
+            // Generate filename with project address
+            const address = document.getElementById('projectAddress').value || 'Project';
+            const filename = `${address} - Cash Flow.xlsx`;
+            
+            XLSX.writeFile(wb, filename);
+        }
+
+        // ─── EQUITY SPLIT ─────────────────────────────────────────────────────
+        function calculateEquitySplit() {
+            const investorPct = parseFloat(investorEquityInput.value);
+            if (!isNaN(investorPct)) {
+                const developerPct = 100 - investorPct;
+                developerEquityInput.value = developerPct.toFixed(2);
+            } else {
+                developerEquityInput.value = '';
+            }
+        }
+        investorEquityInput.addEventListener('input', () => {
+            calculateEquitySplit();
+            calculateProfitSummary();
+        });
+
+        // ─── PREFERRED RETURN RATE LISTENER ───────────────────────────────────
+        preferredReturnRateInput.addEventListener('input', calculateProfitSummary);
+
+        // ─── HURDLE SPLIT CALCULATION ─────────────────────────────────────────
+        function calculateHurdleSplit() {
+            const investorPct = parseFloat(document.getElementById('newHurdleInvestorPct').value);
+            if (!isNaN(investorPct)) {
+                const developerPct = 100 - investorPct;
+                document.getElementById('newHurdleDeveloperPct').value = developerPct.toFixed(1);
+            } else {
+                document.getElementById('newHurdleDeveloperPct').value = '';
+            }
+        }
+        document.getElementById('newHurdleInvestorPct').addEventListener('input', calculateHurdleSplit);
+
+        // ─── TOGGLE PHASE SECTIONS ───────────────────────────────────────────
+        function togglePhase(phaseId) {
+            const content = document.getElementById(phaseId + 'Content');
+            const toggle = document.getElementById(phaseId + 'Toggle');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = '−';
+                toggle.style.background = 'rgba(201, 161, 105, 0.2)';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = '+';
+                toggle.style.background = 'rgba(201, 161, 105, 0.4)';
+            }
+        }
+
+        function expandAllPhases() {
+            const phases = ['phase1', 'phase2', 'phase3', 'phase4', 'phase5'];
+            phases.forEach(phaseId => {
+                const content = document.getElementById(phaseId + 'Content');
+                const toggle = document.getElementById(phaseId + 'Toggle');
+                if (content && toggle) {
+                    // Collapse Cash Flow (phase4) by default, expand all others
+                    if (phaseId === 'phase4') {
+                        content.style.display = 'none';
+                        toggle.textContent = '+';
+                        toggle.style.background = 'rgba(201, 161, 105, 0.4)';
+                    } else {
+                        content.style.display = 'block';
+                        toggle.textContent = '−';
+                        toggle.style.background = 'rgba(201, 161, 105, 0.2)';
+                    }
+                }
+            });
+        }
+
+        // Initial calculations
+        calculateEquitySplit(); // Calculate developer equity from default 90% investor equity
+        calculateAcquisition();
+        calculateEntitlement();
+        calculateConstruction();
+        generateCashFlowTable();
+        calculateExitStrategy();
+        calculateProfitSummary();
+
+        // ─── FORMAT ACQUISITION PRICE WITH COMMAS ────────────────────────────
+        function formatDollarField(input) {
+            let value = input.value.replace(/[$,]/g, ''); // Remove $ and commas
+            if (value && !isNaN(value) && value !== '') {
+                input.value = '$' + parseInt(value).toLocaleString('en-US');
+            }
+        }
+        
+        function unformatDollarField(input) {
+            input.value = input.value.replace(/[$,]/g, ''); // Remove $ and commas
+        }
+        
+        function setupDollarField(inputElement) {
+            inputElement.addEventListener('blur', function() {
+                formatDollarField(this);
+            });
+            inputElement.addEventListener('focus', function() {
+                unformatDollarField(this);
+            });
+            inputElement.addEventListener('input', function() {
+                // Only allow digits
+                this.value = this.value.replace(/[^\d]/g, '');
+            });
+        }
+        
+        // Setup Acquisition Price
+        setupDollarField(acquisitionPriceInput);
+        
+        // Setup Entitlement dollar fields
+        setupDollarField(geotechEngineerInput);
+        setupDollarField(civilEngineerInput);
+        setupDollarField(structuralEngineerInput);
+        setupDollarField(landscapeArchitectInput);
+        setupDollarField(permitExpediterInput);
+        setupDollarField(gradingPermitInput);
+        setupDollarField(buildingPermitInput);
+        setupDollarField(poolPermitInput);
+        setupDollarField(haulRoutePermitInput);
+        setupDollarField(impactFeesInput);
+        
+        // Setup Construction dollar fields
+        setupDollarField(poolLandscapeInput);
+        
+        // Setup Exit price per sq.ft
+        setupDollarField(exitPricePerSqFtInput);
+
+        // ─── SETUP SALEABLE SQUARE FOOTAGE FORMATTING ─────────────────────────
+        sellableSqFtInput.addEventListener('blur', function() {
+            let value = this.value.replace(/,/g, ''); // Remove commas
+            if (value && !isNaN(value) && value !== '') {
+                this.value = parseInt(value).toLocaleString('en-US');
+            }
+        });
+        
+        sellableSqFtInput.addEventListener('focus', function() {
+            this.value = this.value.replace(/,/g, ''); // Remove commas
+        });
+
+        // ─── RESTRICT NUMERIC INPUTS TO NUMBERS ONLY ─────────────────────────
+        // Only apply to text fields (dollar fields), not number fields which have browser validation
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            // Skip Project Address field
+            if (input.id === 'projectAddress' || input.id === 'projectStatus') return;
+            
+            input.addEventListener('input', function(e) {
+                // For dollar fields - only allow digits (no decimal, no negative)
+                this.value = this.value.replace(/[^\d]/g, '');
+            });
+        });
+
+        // ─── PROJECT ADDRESS & STATUS INPUTS ─────────────────────────────────
+        const projectAddressInput = document.getElementById('projectAddress');
+        const projectStatusInput  = document.getElementById('projectStatus');
+
+        // ─── PAGE NAVIGATION ─────────────────────────────────────────────────
+        let currentProjectId = null;
+
+        async function showDashboard() {
+            document.getElementById('dashboardPage').style.display = 'block';
+            document.getElementById('modelPage').style.display = 'none';
+            currentProjectId = null;
+            await renderDashboard();
+        }
+
+        function showModel(projectId = null) {
+            document.getElementById('dashboardPage').style.display = 'none';
+            document.getElementById('modelPage').style.display = 'block';
+            expandAllPhases(); // Ensure all phases are expanded when opening project
+            currentProjectId = projectId;
+            if (projectId) {
+                loadProject(projectId);
+            } else {
+                clearModel();
+            }
+        }
+
+        document.getElementById('backToDashboardBtn').addEventListener('click', showDashboard);
+
+        // ─── EXPORT PDF ──────────────────────────────────────────────────
+        document.getElementById('exportPdfBtn').addEventListener('click', function() {
+            // Populate the PDF-only header with live data
+            const address = document.getElementById('projectAddress').value || 'Untitled Project';
+            const status  = document.getElementById('projectStatus').value || '';
+            const date    = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            document.getElementById('pdfAddress').textContent = address;
+            document.getElementById('pdfStatus').textContent  = status;
+            document.getElementById('pdfDate').textContent    = 'Generated: ' + date;
+
+            // Set page title so the PDF filename = address
+            const originalTitle = document.title;
+            document.title = address + ' — Deal Proforma';
+
+            // Ensure model page is visible before printing
+            // (it should already be visible when on model page, but force it)
+            const modelPage = document.getElementById('modelPage');
+            const dashboardPage = document.getElementById('dashboardPage');
+            const prevModelDisplay = modelPage.style.display;
+            const prevDashDisplay  = dashboardPage.style.display;
+
+            modelPage.style.display = 'block';
+            dashboardPage.style.display = 'none';
+
+            // Small delay to let browser render before print dialog
+            setTimeout(function() {
+                window.print();
+                // Restore state after a delay (print dialog is synchronous in most browsers)
+                setTimeout(function() {
+                    document.title = originalTitle;
+                    modelPage.style.display = prevModelDisplay;
+                    dashboardPage.style.display = prevDashDisplay;
+                }, 500);
+            }, 100);
+        });
+        document.getElementById('newProjectBtn').addEventListener('click', () => showModel(null));
+        document.getElementById('saveProjectBtn').addEventListener('click', saveProject);
+
+        // ─── COLLECT ALL FIELD VALUES ─────────────────────────────────────────
+        function collectProjectData() {
+            return {
+                id: currentProjectId || Date.now().toString(),
+                savedAt: new Date().toISOString(),
+                address: projectAddressInput.value,
+                status: projectStatusInput.value,
+                // Phase 1
+                acquisitionPrice: acquisitionPriceInput.value.replace(/[$,]/g, ''),
+                equityPercent: equityPercentInput.value,
+                // Phase 2
+                entitlementMonths: entitlementMonthsInput.value,
+                entitlementEquityPercent: entitlementEquityPercentInput.value,
+                interestReserveIncluded: interestReserveIncludedInput.checked,
+                constructionInterestReserveIncluded: constructionInterestReserveIncludedInput.checked,
+                sellableSqFt: sellableSqFtInput.value.replace(/,/g, ''),
+                entitlementInterestRate: entitlementInterestRateInput.value,
+                architectPriceSF: architectPriceSFInput.value,
+                interiorDesignerPriceSF: interiorDesignerPriceSFInput.value,
+                geotechEngineer: geotechEngineerInput.value.replace(/[$,]/g, ''),
+                civilEngineer: civilEngineerInput.value.replace(/[$,]/g, ''),
+                structuralEngineer: structuralEngineerInput.value.replace(/[$,]/g, ''),
+                landscapeArchitect: landscapeArchitectInput.value.replace(/[$,]/g, ''),
+                permitExpediter: permitExpediterInput.value.replace(/[$,]/g, ''),
+                gradingPermit: gradingPermitInput.value.replace(/[$,]/g, ''),
+                buildingPermit: buildingPermitInput.value.replace(/[$,]/g, ''),
+                poolPermit: poolPermitInput.value.replace(/[$,]/g, ''),
+                haulRoutePermit: haulRoutePermitInput.value.replace(/[$,]/g, ''),
+                impactFees: impactFeesInput.value.replace(/[$,]/g, ''),
+                // Phase 3
+                constructionMonths: constructionMonthsInput.value,
+                sellingMonths: sellingMonthsInput.value,
+                constructionInterestRate: constructionInterestRateInput.value,
+                constructionCostPerSF: constructionCostPerSFInput.value,
+                gcFeePercent: gcFeePercentInput.value,
+                poolLandscape: poolLandscapeInput.value.replace(/[$,]/g, ''),
+                constructionEquityPercent: constructionEquityPercentInput.value,
+                // Phase 5
+                exitPricePerSqFt: exitPricePerSqFtInput.value.replace(/[$,]/g, ''),
+                investorEquity: investorEquityInput.value,
+                preferredReturnRate: preferredReturnRateInput.value,
+                // Custom Hurdles
+                customHurdles: customHurdles,
+                // Computed summary values for dashboard display
+                totalProjectCost: document.getElementById('totalProjectCostDisplay').textContent,
+                netProfit: document.getElementById('netProfitDisplay').textContent,
+                netProfitOnCost: document.getElementById('profitPctDisplay').textContent,
+                totalSalesRevenue: document.getElementById('totalSalesRevenueDisplay').textContent,
+            };
+        }
+
+        // ─── POPULATE ALL FIELDS ─────────────────────────────────────────────
+        function populateModel(data) {
+            projectAddressInput.value = data.address || '';
+            projectStatusInput.value  = data.status  || 'Under Consideration';
+            const acqPrice = data.acquisitionPrice || '';
+            acquisitionPriceInput.value = acqPrice ? '$' + parseInt(acqPrice).toLocaleString('en-US') : '';
+            equityPercentInput.value = data.equityPercent || '';
+            entitlementMonthsInput.value = data.entitlementMonths || '';
+            entitlementEquityPercentInput.value = data.entitlementEquityPercent || '';
+            interestReserveIncludedInput.checked = data.interestReserveIncluded !== false; // default to true
+            constructionInterestReserveIncludedInput.checked = data.constructionInterestReserveIncluded !== false; // default to true
+            sellableSqFtInput.value = data.sellableSqFt ? parseInt(data.sellableSqFt).toLocaleString('en-US') : '';
+            entitlementInterestRateInput.value = data.entitlementInterestRate || '';
+            architectPriceSFInput.value = data.architectPriceSF || '';
+            interiorDesignerPriceSFInput.value = data.interiorDesignerPriceSF || '';
+            geotechEngineerInput.value = data.geotechEngineer ? '$' + parseInt(data.geotechEngineer).toLocaleString('en-US') : '';
+            civilEngineerInput.value = data.civilEngineer ? '$' + parseInt(data.civilEngineer).toLocaleString('en-US') : '';
+            structuralEngineerInput.value = data.structuralEngineer ? '$' + parseInt(data.structuralEngineer).toLocaleString('en-US') : '';
+            landscapeArchitectInput.value = data.landscapeArchitect ? '$' + parseInt(data.landscapeArchitect).toLocaleString('en-US') : '';
+            permitExpediterInput.value = data.permitExpediter ? '$' + parseInt(data.permitExpediter).toLocaleString('en-US') : '';
+            gradingPermitInput.value = data.gradingPermit ? '$' + parseInt(data.gradingPermit).toLocaleString('en-US') : '';
+            buildingPermitInput.value = data.buildingPermit ? '$' + parseInt(data.buildingPermit).toLocaleString('en-US') : '';
+            poolPermitInput.value = data.poolPermit ? '$' + parseInt(data.poolPermit).toLocaleString('en-US') : '';
+            haulRoutePermitInput.value = data.haulRoutePermit ? '$' + parseInt(data.haulRoutePermit).toLocaleString('en-US') : '';
+            impactFeesInput.value = data.impactFees ? '$' + parseInt(data.impactFees).toLocaleString('en-US') : '';
+            constructionMonthsInput.value = data.constructionMonths || '';
+            sellingMonthsInput.value = data.sellingMonths || '';
+            constructionInterestRateInput.value = data.constructionInterestRate || '';
+            constructionCostPerSFInput.value = data.constructionCostPerSF || '';
+            gcFeePercentInput.value = data.gcFeePercent || '';
+            poolLandscapeInput.value = data.poolLandscape ? '$' + parseInt(data.poolLandscape).toLocaleString('en-US') : '';
+            constructionEquityPercentInput.value = data.constructionEquityPercent || '';
+            exitPricePerSqFtInput.value = data.exitPricePerSqFt ? '$' + parseInt(data.exitPricePerSqFt).toLocaleString('en-US') : '';
+            investorEquityInput.value   = data.investorEquity || '';
+            preferredReturnRateInput.value = data.preferredReturnRate || '10';
+            calculateEquitySplit();
+            investorEquityInput.value   = data.investorEquity || '';
+            calculateEquitySplit();
+            // Load custom hurdles
+            customHurdles = data.customHurdles || [];
+            // Recalculate everything
+            calculateAcquisition();
+            calculateEntitlement();
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateProfitSummary();
+        }
+
+        function clearModel() {
+            const inputs = document.querySelectorAll('#modelPage input[type="number"], #modelPage input[type="text"]');
+            inputs.forEach(input => input.value = '');
+            // Set default investor equity to 90%
+            investorEquityInput.value = '90';
+            // Set default preferred return to 10%
+            preferredReturnRateInput.value = '10';
+            // Clear custom hurdles
+            customHurdles = [];
+            calculateAcquisition();
+            calculateEntitlement();
+            calculateConstruction();
+            generateCashFlowTable();
+            calculateExitStrategy();
+            calculateEquitySplit();
+            calculateProfitSummary();
+        }
+
+        // ─── STORAGE HELPERS (localStorage) ─────────────────────────────────
+        async function getAllProjects() {
+            try {
+                return await DataStore.getAllProjects();
+            } catch(e) {
+                console.error('Error getting all projects:', e);
+                return [];
+            }
+        }
+
+        async function saveProject() {
+            const data = collectProjectData();
+            if (!data.address.trim()) {
+                alert('Please enter a Project Address before saving.');
+                projectAddressInput.focus();
+                return;
+            }
+            currentProjectId = data.id;
+            try {
+                await DataStore.saveProject(data.id, data);
+                showToast('Project saved successfully!');
+            } catch(e) {
+                showToast('Error saving project: ' + e.message);
+            }
+        }
+
+        async function loadProject(projectId) {
+            try {
+                const data = await DataStore.getProject(projectId);
+                if (data) {
+                    currentProjectId = data.id;
+                    populateModel(data);
+                }
+            } catch(e) {
+                showToast('Error loading project.');
+            }
+        }
+
+        // ─── COPY PROJECT ─────────────────────────────────────────────────────
+        async function copyProject(projectId) {
+            try {
+                // Get the original project
+                const originalProject = await DataStore.getProject(projectId);
+                if (!originalProject) {
+                    showToast('Error: Project not found.');
+                    return;
+                }
+                
+                // Get all existing projects to determine the copy number
+                const allProjects = await DataStore.getAllProjects();
+                const baseAddress = originalProject.address || 'Untitled Project';
+                
+                // Find all copies of this project
+                const copyPattern = new RegExp(`^${baseAddress.replace(/[-\s]*\d+$/, '')}\\s*-\\s*(\\d+)$`);
+                let maxCopyNum = 0;
+                
+                allProjects.forEach(p => {
+                    const addr = p.address || '';
+                    // Check if it's the original (exact match)
+                    if (addr === baseAddress && maxCopyNum === 0) {
+                        maxCopyNum = 0;
+                    }
+                    // Check if it's already a copy
+                    const match = addr.match(copyPattern);
+                    if (match) {
+                        const num = parseInt(match[1]);
+                        if (num > maxCopyNum) maxCopyNum = num;
+                    }
+                });
+                
+                // Create the new address with incremented number
+                const newAddress = `${baseAddress} - ${maxCopyNum + 1}`;
+                
+                // Create a copy of the project with new ID and address
+                const newProject = {
+                    ...originalProject,
+                    id: Date.now().toString(),
+                    address: newAddress,
+                    savedAt: new Date().toISOString()
+                };
+                
+                // Save the copy
+                await DataStore.saveProject(newProject.id, newProject);
+                
+                // Refresh dashboard
+                renderDashboard();
+                showToast(`Project copied as "${newAddress}"`);
+            } catch(e) {
+                console.error('Copy error:', e);
+                showToast('Error copying project.');
+            }
+        }
+
+        async function deleteProject(projectId) {
+            if (!confirm('Are you sure you want to delete this project?')) return;
+            try {
+                await DataStore.deleteProject(projectId);
+                await renderDashboard();
+            } catch(e) {
+                showToast('Error deleting project.');
+            }
+        }
+
+        // ─── RENDER DASHBOARD ─────────────────────────────────────────────────
+        async function renderDashboard() {
+            const allProjects = await getAllProjects();
+            const filter = document.getElementById('statusFilter').value;
+            const projects = filter === 'All' ? allProjects : allProjects.filter(p => (p.status || 'Under Consideration') === filter);
+            const list = document.getElementById('projectsList');
+
+            if (projects.length === 0) {
+                const label = filter === 'All' ? 'No projects saved yet. Click "+ New Project" to get started.' : `No projects with status "${filter}".`;
+                list.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--text-secondary); font-style: italic;">${label}</div>`;
+                return;
+            }
+
+            const statusClass = { 'Under Consideration': 'status-under-consideration', 'Acquired': 'status-acquired', 'Archived': 'status-archived' };
+
+            list.innerHTML = projects.map(p => {
+                const savedDate = new Date(p.savedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                const netProfitRaw = parseFloat((p.netProfit || '0').replace(/[$,]/g, ''));
+                const profitClass = netProfitRaw >= 0 ? 'profit-positive' : 'profit-negative';
+                
+                // Get Net Profit on Cost % from saved data (or calculate for old projects)
+                let profitOnCostDisplay = p.netProfitOnCost || null;
+                if (!profitOnCostDisplay) {
+                    // Fallback: calculate for projects saved before this field was added
+                    const totalCostRaw = parseFloat((p.totalProjectCost || '0').replace(/[$,]/g, ''));
+                    const profitOnCostPct = totalCostRaw !== 0 ? (netProfitRaw / totalCostRaw) * 100 : 0;
+                    profitOnCostDisplay = profitOnCostPct.toFixed(2) + '%';
+                }
+                const profitOnCostValue = parseFloat(profitOnCostDisplay.replace('%', '')) || 0;
+                const profitOnCostClass = profitOnCostValue >= 0 ? 'profit-positive' : 'profit-negative';
+                const totalMonths = (parseFloat(p.entitlementMonths) || 0) + (parseFloat(p.constructionMonths) || 0) + (parseFloat(p.sellingMonths) || 0);
+                const status = p.status || 'Under Consideration';
+                const badgeClass = statusClass[status] || 'status-under-consideration';
+
+                return `
+                    <div class="project-card" style="position: relative;">
+                        <button onclick="copyProject('${p.id}')" style="position: absolute; top: 1rem; right: 1rem; background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: #666; padding: 0.25rem; line-height: 1; transition: color 0.2s;" title="Copy project" onmouseover="this.style.color='#28a745'" onmouseout="this.style.color='#666'">📋</button>
+                        <div class="project-card-info">
+                            <div>
+                                <div class="project-card-address">${p.address || 'Untitled Project'}</div>
+                                <div style="margin-top: 0.35rem; display: flex; gap: 0.75rem; align-items: center;">
+                                    <span class="status-badge ${badgeClass}">${status}</span>
+                                    <span class="project-card-meta">Last saved: ${savedDate}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="project-card-meta">Acquisition Price</div>
+                                <div class="project-card-value">$${Math.round(Number(p.acquisitionPrice || 0)).toLocaleString('en-US')}</div>
+                            </div>
+                            <div>
+                                <div class="project-card-meta">Total Project Cost</div>
+                                <div class="project-card-value">${p.totalProjectCost || '$0'}</div>
+                            </div>
+                            <div>
+                                <div class="project-card-meta">ARV</div>
+                                <div class="project-card-value">${p.totalSalesRevenue || '$0'}</div>
+                            </div>
+                            <div>
+                                <div class="project-card-meta">Net Profit</div>
+                                <div class="project-card-value ${profitClass}">${p.netProfit || '$0'}</div>
+                            </div>
+                            <div>
+                                <div class="project-card-meta">Net Profit on Cost</div>
+                                <div class="project-card-value ${profitOnCostClass}">${profitOnCostDisplay}</div>
+                            </div>
+                        </div>
+                        <div class="project-card-actions">
+                            <button class="btn-open" onclick="showModel('${p.id}')">Open</button>
+                            <button class="btn-delete" onclick="deleteProject('${p.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ─── TOAST NOTIFICATION ───────────────────────────────────────────────
+        function showToast(message) {
+            const toast = document.getElementById('saveToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ─── EXPORT ALL PROJECTS ─────────────────────────────────────────
+        // ─── HELP TOGGLE ─────────────────────────────────────────────────
+        document.getElementById('helpBtn').addEventListener('click', function() {
+            const section = document.getElementById('helpSection');
+            const isOpen = section.classList.toggle('open');
+            this.textContent = isOpen ? '✕ Close Help' : '? Help';
+        });
+
+        // ─── INITIALISE ───────────────────────────────────────────────────────
+        document.getElementById('statusFilter').addEventListener('change', renderDashboard);
+        
+        // Dashboard will be loaded automatically after Firebase initializes
+        // (see initializeFirebase function)
+    </script>
+
+    <div class="save-toast" id="saveToast"></div>
+</body>
+</html>
